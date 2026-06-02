@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>محاسبه‌گر جامع بهای تمام شده واردات</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            /* ----- Dark Theme (Default) ----- */
+            --bg-base: #121212;
+            --bg-surface: #1e1e24;
+            --bg-surface-variant: #2b2b36;
+            --primary: #64ffda; /* Teal accent */
+            --primary-variant: #00bfa5;
+            --text-main: #ffffff;
+            --text-muted: #a0a0ab;
+            --border: #3f3f4a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.5);
+            --kpi-bg: linear-gradient(135deg, var(--primary-variant), #009688);
+            --kpi-text: #000000;
+            --box042-bg: rgba(100, 255, 218, 0.05);
+            
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            /* ----- Light Theme (Vibrant & Clean) ----- */
+            --bg-base: #f4f6f9;
+            --bg-surface: #ffffff;
+            --bg-surface-variant: #f8fafc;
+            --primary: #2563eb; /* Royal Blue */
+            --primary-variant: #3b82f6;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 40px -10px rgba(37, 99, 235, 0.15);
+            --kpi-bg: linear-gradient(135deg, #1e40af, #3b82f6);
+            --kpi-text: #ffffff;
+            --box042-bg: #f0fdf4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', system-ui, 'Vazirmatn', Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 20px 14px;
+            min-height: 100vh;
+            transition: background-color var(--transition), color var(--transition);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ----- HEADER & THEME TOGGLE ----- */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8px;
+        }
+        
+        .app-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(15deg);
+        }
+
+        /* ----- TABS ----- */
+        .tab-container {
+            background: var(--bg-surface);
+            border-radius: 100px;
+            padding: 6px;
+            display: flex;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 14px;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+        .tab-btn.active {
+            background: var(--primary-variant);
+            color: var(--bg-surface);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        [data-theme="light"] .tab-btn.active {
+            color: #ffffff;
+        }
+
+        /* ----- CARDS ----- */
+        .card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+        }
+
+        /* ----- INPUT GRID ----- */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="number"], select {
+            background: var(--bg-base);
+            border: 1.5px solid var(--border);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+            appearance: none;
+        }
+        
+        select {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23a0a0ab%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: left 12px center;
+            background-size: 16px;
+            padding-left: 40px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* ----- RESULTS SECTION ----- */
+        .result-kpi {
+            background: var(--kpi-bg);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            color: var(--kpi-text);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        .kpi-title { font-size: 0.9rem; font-weight: 700; opacity: 0.9; }
+        .kpi-val { font-size: 2.4rem; font-weight: 900; margin-top: 8px; letter-spacing: -0.5px; }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .detail-item {
+            background: var(--bg-surface-variant);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+        [data-theme="light"] .detail-item {
+            border-color: var(--border);
+        }
+        
+        .detail-title { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+        .detail-val { font-size: 1.05rem; font-weight: 800; font-family: monospace; color: var(--text-main); }
+
+        /* Box 042 Special Styling */
+        .box042 {
+            grid-column: 1 / -1;
+            background: var(--box042-bg);
+            border: 1px dashed var(--primary-variant);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .box042-header {
+            display: flex;
+            justify-content: space-between;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        .box042-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .total-payment {
+            grid-column: 1 / -1;
+            background: var(--primary-variant);
+            color: var(--bg-surface);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-top: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        [data-theme="light"] .total-payment {
+            color: #ffffff;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 40px 20px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 480px) {
+            .app-container { gap: 16px; }
+            .card { padding: 18px; }
+            .input-grid { grid-template-columns: 1fr; }
+            .kpi-val { font-size: 2rem; }
+            .total-payment { flex-direction: column; gap: 8px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div class="app-header">
+        <div class="app-title">
+            <span class="material-icons-round">local_shipping</span> گمرک‌یار
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="تغییر پوسته">
+            <span class="material-icons-round" id="themeIcon">light_mode</span>
+        </button>
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-btn active" data-mode="coop" onclick="setMode('coop')">
+            <span class="material-icons-round">apartment</span> تعاونی ۱۰۰
+        </button>
+        <button class="tab-btn" data-mode="azad" onclick="setMode('azad')">
+            <span class="material-icons-round">inventory_2</span> آزاد (ویژه)
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="section-title"><span class="material-icons-round">edit_document</span> متغیرهای واردات</div>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>وزن خالص (کیلوگرم)</label>
+                <input type="text" id="inpWeight" inputmode="numeric" placeholder="مثال: 1,500">
+            </div>
+            
+            <div class="input-group">
+                <label>ارزش کل (ارز خارجی)</label>
+                <input type="text" id="inpAmount" inputmode="numeric" placeholder="مثال: 50,000">
+            </div>
+
+            <div class="input-group" style="grid-column: 1 / -1;">
+                <label>انتخاب ارز گمرکی (آپدیت آنلاین)</label>
+                <select id="inpCurrency"></select>
+            </div>
+
+            <div class="input-group">
+                <label>نرخ تبدیل ارز (ریال)</label>
+                <input type="text" id="inpRate" inputmode="numeric" placeholder="نرخ به‌صورت خودکار درج می‌شود">
+            </div>
+
+            <div class="input-group">
+                <label>حقوق ورودی (٪)</label>
+                <input type="number" id="inpTariff" value="5" step="0.1" style="direction:ltr;">
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="min-height: 250px;">
+        <div class="section-title" id="resTitle"><span class="material-icons-round">calculate</span> خروجی: تعاونی ۱۰۰</div>
+        <div id="resultBox">
+            <div class="empty-state">
+                <span class="material-icons-round" style="font-size: 56px; margin-bottom: 12px; display: block;">analytics</span>
+                <p>برای مشاهده ریز محاسبات گمرکی، متغیرهای بالا را تکمیل نمایید.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentMode = 'coop';
+
+    // مدیریت پوسته‌ها
+    function toggleTheme() {
+        const html = document.documentElement;
+        const icon = document.getElementById('themeIcon');
+        if (html.getAttribute('data-theme') === 'light') {
+            html.removeAttribute('data-theme');
+            icon.textContent = 'light_mode';
+        } else {
+            html.setAttribute('data-theme', 'light');
+            icon.textContent = 'dark_mode';
+        }
+    }
+
+    // ----- خواندن اطلاعات از فایل JSON تولید شده توسط گیت‌هاب اکشن -----
+    async function fetchLiveCurrencies() {
+        const select = document.getElementById('inpCurrency');
+        select.innerHTML = '<option value="">🌀 در حال دریافت نرخ‌های جدید ...</option>';
+        
+        try {
+            // اضافه کردن Timestamp به انتهای لینک برای جلوگیری از کش شدن اطلاعات قدیمی
+            const response = await fetch('rates.json?t=' + new Date().getTime());
+            
+            if (!response.ok) {
+                throw new Error('فایل rates.json یافت نشد (منتظر اولین اجرای ربات گیت‌هاب باشید).');
+            }
+            
+            const ratesData = await response.json();
+
+            if (!ratesData || ratesData.length === 0) {
+                throw new Error('لیست نرخ‌ها خالی است.');
+            }
+
+            select.innerHTML = '<option value="">-- انتخاب ارز --</option>';
+            
+            // پر کردن لیست کشویی
+            ratesData.forEach(item => {
+                const formattedRate = parseFloat(item.rate).toLocaleString('en-US');
+                select.innerHTML += `<option value="${item.rate}">${item.name} (${item.code}) : ${formattedRate} ریال</option>`;
+            });
+
+            // وقتی ارزی انتخاب شد، عدد آن به اینپوت نرخ منتقل شود
+            select.addEventListener('change', (e) => {
+                if(e.target.value) {
+                    const numVal = parseFloat(e.target.value);
+                    document.getElementById('inpRate').value = numVal.toLocaleString('en-US');
+                    calculate(); // آپدیت لحظه ای محاسبات
+                }
+            });
+
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            select.innerHTML = `<option value="">⚠️ خطا: ${error.message}</option>`;
+        }
+    }
+
+    // تغییر حالت تب ها
+    function setMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.tab-btn[data-mode="${mode}"]`).classList.add('active');
+        document.getElementById('resTitle').innerHTML = mode === 'coop' 
+            ? '<span class="material-icons-round">calculate</span> خروجی: تعاونی ۱۰۰' 
+            : '<span class="material-icons-round">calculate</span> خروجی: روش آزاد';
+        calculate();
+    }
+
+    // استخراج عدد خالص از رشته دارای کاما
+    function getNum(id) {
+        const val = document.getElementById(id).value.replace(/,/g, '');
+        return parseFloat(val) || 0;
+    }
+
+    // فرمت دهی اعداد با کاما
+    function formatRial(val) {
+        if (isNaN(val)) return '۰';
+        return Math.round(val).toLocaleString('en-US');
+    }
+
+    // کاما گذاری خودکار در لحظه تایپ
+    ['inpWeight', 'inpAmount', 'inpRate'].forEach(id => {
+        document.getElementById(id).addEventListener('input', function(e) {
+            let value = e.target.value.replace(/,/g, '').replace(/[^0-9.]/g, '');
+            if(value !== '') {
+                let parts = value.split('.');
+                parts[0] = parseInt(parts[0]).toLocaleString('en-US');
+                e.target.value = parts.join('.');
+            } else {
+                e.target.value = '';
+            }
+            calculate();
+        });
+    });
+
+    document.getElementById('inpTariff').addEventListener('input', calculate);
+
+    // ===== هسته مرکزی محاسبات گمرکی =====
+    function calculate() {
+        const weight = getNum('inpWeight');
+        const amount = getNum('inpAmount');
+        const rate = getNum('inpRate');
+        const tariffPct = parseFloat(document.getElementById('inpTariff').value) || 0;
+
+        if (!weight || !amount || !rate) {
+            document.getElementById('resultBox').innerHTML = `
+                <div class="empty-state">
+                    <span class="material-icons-round" style="font-size: 56px; margin-bottom: 12px; display: block;">analytics</span>
+                    <p>برای مشاهده ریز محاسبات گمرکی، متغیرهای بالا را تکمیل نمایید.</p>
+                </div>`;
+            return;
+        }
+
+        // 1. محاسبات پایه
+        const insurance = Math.round(amount * 0.0005 * rate); // 0.05 درصد
+        const totalValue = Math.round((amount * rate) + insurance + 1); // ارزش ریالی سیف
+        const tariff = Math.round(totalValue * (tariffPct / 100)); // حقوق ورودی
+
+        // 2. اجزای باکس ۰۴۲ (تجمیعی)
+        const redCrescent = Math.round(tariff * 0.01);
+        const animalFeed = Math.round(totalValue * 0.01);
+        const tax12 = Math.round(totalValue * 0.012);
+        const tax200 = Math.round(weight * 200);
+        
+        const box042 = redCrescent + animalFeed + tax12 + tax200;
+
+        // 3. سایر عوارض
+        const tax4 = Math.round((totalValue + tariff) * 0.04);
+        const standard = Math.round(totalValue * 0.008);
+        const foodDrug = Math.round(totalValue * 0.008);
+
+        // 4. جمع‌بندی بر اساس نوع تب
+        let totalPayment = 0;
+        let costPerKg = 0;
+
+        if (currentMode === 'coop') {
+            totalPayment = tariff + box042;
+            costPerKg = Math.round((totalPayment + tax4 + standard + foodDrug) / weight);
+        } else {
+            const vat = Math.round((totalValue + tariff) * 0.10); // مالیات 10%
+            totalPayment = tariff + box042 + vat;
+            costPerKg = Math.round((totalPayment + tax4 + standard + foodDrug) / weight);
+        }
+
+        renderUI({
+            insurance, totalValue, tariff, box042, redCrescent, animalFeed, tax12, tax200,
+            tax4, standard, foodDrug, totalPayment, costPerKg
+        });
+    }
+
+    // نمایش اطلاعات در UI
+    function renderUI(res) {
+        let extraRow = '';
+        if (currentMode === 'azad') {
+            const vat = Math.round((res.totalValue + res.tariff) * 0.10);
+            extraRow = `<div class="detail-item"><span class="detail-title">ارزش افزوده (۱۰٪)</span><span class="detail-val">${formatRial(vat)}</span></div>`;
+        }
+
+        document.getElementById('resultBox').innerHTML = `
+            <div class="result-kpi">
+                <div class="kpi-title">بهای تمام شده هر کیلوگرم خالص</div>
+                <div class="kpi-val">${formatRial(res.costPerKg)} <span style="font-size:1.1rem; font-weight:normal; opacity:0.8;">ریال</span></div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item"><span class="detail-title">بیمه گمرکی (۰.۰۵٪)</span><span class="detail-val">${formatRial(res.insurance)}</span></div>
+                <div class="detail-item"><span class="detail-title">ارزش کل ریالی (سیف)</span><span class="detail-val">${formatRial(res.totalValue)}</span></div>
+                <div class="detail-item"><span class="detail-title">حقوق ورودی</span><span class="detail-val">${formatRial(res.tariff)}</span></div>
+                ${extraRow}
+                <div class="detail-item"><span class="detail-title">مالیات ۴٪ علی‌الحساب</span><span class="detail-val">${formatRial(res.tax4)}</span></div>
+                <div class="detail-item"><span class="detail-title">عوارض استاندارد (۸ در ۱۰۰۰)</span><span class="detail-val">${formatRial(res.standard)}</span></div>
+                <div class="detail-item"><span class="detail-title">غذا و دارو (۸ در ۱۰۰۰)</span><span class="detail-val">${formatRial(res.foodDrug)}</span></div>
+                
+                <div class="box042">
+                    <div class="box042-header">
+                        <span>تجمیع باکس ۰۴۲</span>
+                        <span>${formatRial(res.box042)} ریال</span>
+                    </div>
+                    <div class="box042-breakdown">
+                        <div>• هلال احمر (۱٪ حقوق ورودی): ${formatRial(res.redCrescent)}</div>
+                        <div>• نهاده‌های دامی (۱٪ ارزش): ${formatRial(res.animalFeed)}</div>
+                        <div>• عوارض ۱۲ در ۱۰۰۰: ${formatRial(res.tax12)}</div>
+                        <div>• عوارض وزنی: ${formatRial(res.tax200)}</div>
+                    </div>
+                </div>
+
+                <div class="total-payment">
+                    <span>جمع کل پرداختی گمرکی</span>
+                    <span>${formatRial(res.totalPayment)} <small style="font-weight:500; opacity:0.9;">ریال</small></span>
+                </div>
+            </div>
+        `;
+    }
+
+    // راه اندازی برنامه و فراخوانی داده‌های محلی
+    fetchLiveCurrencies();
+</script>
+</body>
+</html>
