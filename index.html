@@ -337,7 +337,17 @@
             </div>
 
             <div class="input-group" style="grid-column: 1 / -1;">
-                <label>انتخاب ارز گمرکی (آپدیت آنلاین)</label>
+                <label style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>انتخاب ارز گمرکی</span>
+                    
+                    <a href="https://github.com/prespolis1400/mohasebat-varedat/actions/workflows/update_rates.yml" 
+                       target="_blank" 
+                       title="اجرای ربات پایتون برای دریافت نرخ جدید"
+                       style="background: var(--primary-variant); color: #000; text-decoration: none; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; display: flex; align-items: center; gap: 4px; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: 0.2s;">
+                        <span class="material-icons-round" style="font-size: 1.1rem;">cloud_sync</span> دریافت زنده
+                    </a>
+
+                </label>
                 <select id="inpCurrency"></select>
             </div>
 
