@@ -606,7 +606,8 @@
         let costPerKg = 0;
 
         if (currentMode === 'coop') {
-            totalPayment = tariff + box042;
+            const vat = Math.round((totalValue + tariff) * 0.10); // مالیات 10%
+            totalPayment = tariff + box042 + vat;
             costPerKg = Math.round((totalPayment + tax4 + standard + foodDrug) / weight);
         } else {
             const vat = Math.round((totalValue + tariff) * 0.10); // مالیات 10%
@@ -625,10 +626,9 @@
     // نمایش اطلاعات در UI
     function renderUI(res) {
         let extraRow = '';
-        if (currentMode === 'azad') {
-            const vat = Math.round((res.totalValue + res.tariff) * 0.10);
-            extraRow = `<div class="detail-item"><span class="detail-title">ارزش افزوده (۱۰٪)</span><span class="detail-val">${formatRial(vat)}</span></div>`;
-        }
+        const vat = Math.round((res.totalValue + res.tariff) * 0.10);
+        extraRow = `<div class="detail-item"><span class="detail-title">ارزش افزوده (۱۰٪)</span><span class="detail-val">${formatRial(vat)}</span></div>`;
+        
 
         // ساخت هوشمند لیست جزئیات باکس 042 (فقط موارد تیک‌خورده نمایش داده می‌شوند)
         let box042Breakdown = '';
