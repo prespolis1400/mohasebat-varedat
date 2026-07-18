@@ -724,12 +724,12 @@
                     <label class="chip-check checked">
                         <input type="checkbox" id="chkStandard" checked>
                         <span class="chip-check-label">عوارض استاندارد</span>
-                        <span class="chip-check-desc">۸ در هزار ارزش گمرکی</span>
+                        <span class="chip-check-desc">2 در هزار ارزش گمرکی</span>
                     </label>
                     <label class="chip-check checked">
                         <input type="checkbox" id="chkFoodDrug" checked>
                         <span class="chip-check-label">غذا و دارو</span>
-                        <span class="chip-check-desc">۸ در هزار ارزش گمرکی</span>
+                        <span class="chip-check-desc">2 در هزار ارزش گمرکی</span>
                     </label>
                 </div>
             </div>
@@ -1169,8 +1169,8 @@
         const feeResult = computeFeeTotal(ctx); // { total, items } — جایگزین باکس ۰۴۲ دستی
 
         const tax4 = Math.round((totalValue + tariff) * 0.04);
-        const standard = document.getElementById('chkStandard').checked ? Math.round(totalValue * 0.008) : 0;
-        const foodDrug = document.getElementById('chkFoodDrug').checked ? Math.round(totalValue * 0.008) : 0;
+        const standard = document.getElementById('chkStandard').checked ? Math.round(totalValue * 0.002) : 0;
+        const foodDrug = document.getElementById('chkFoodDrug').checked ? Math.round(totalValue * 0.002) : 0;
         const vat = Math.round((totalValue + tariff) * 0.10);
 
         let discount = 0, finalVat = vat, totalPayment = 0, costPerKg = 0;
