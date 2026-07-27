@@ -633,10 +633,10 @@
                 </div>
                 <div class="checkbox-grid">
                     <label class="check-item">
-                        <input type="checkbox" id="chkStandard" checked> عوارض استاندارد (۸ در ۱۰۰۰)
+                        <input type="checkbox" id="chkStandard" checked> عوارض استاندارد (2 در ۱۰۰۰)
                     </label>
                     <label class="check-item">
-                        <input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (۸ در ۱۰۰۰)
+                        <input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (2 در ۱۰۰۰)
                     </label>
                 </div>
             </div>
@@ -924,10 +924,10 @@
         let standard = 0;
         let foodDrug = 0;
         if (document.getElementById('chkStandard').checked) {
-            standard = Math.round(totalValue * 0.008);
+            standard = Math.round(totalValue * 0.002);
         }
         if (document.getElementById('chkFoodDrug').checked) {
-            foodDrug = Math.round(totalValue * 0.008);
+            foodDrug = Math.round(totalValue * 0.002);
         }
 
         const vat = Math.round((totalValue + tariff) * 0.10);
