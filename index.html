@@ -57,7 +57,7 @@
             padding: 20px 14px;
             min-height: 100vh;
             transition: background-color var(--transition), color var(--transition);
-            overflow-x: hidden; /* جلوگیری از اسکرول و تغییر عرض افقی صفحه */
+            overflow-x: hidden; 
         }
 
         .app-container {
@@ -198,8 +198,8 @@
             outline: none;
             transition: var(--transition);
             appearance: none;
-            width: 100%;          /* فیکس شدن عرض در موبایل */
-            max-width: 100%;      /* فیکس شدن عرض در موبایل */
+            width: 100%;          
+            max-width: 100%;      
             box-sizing: border-box;
         }
         
@@ -272,7 +272,7 @@
             gap: 12px;
             margin-top: 8px;
             flex-wrap: wrap;
-            direction: ltr; /* حفظ چیدمان ماشین‌حسابی دکمه‌ها از چپ به راست */
+            direction: ltr;
         }
 
         .calc-btn {
@@ -532,7 +532,7 @@
             font-size: 0.95rem;
             color: var(--text-main);
             line-height: 1.7;
-            white-space: pre-line; /* حفظ شکستگی خطوط متن */
+            white-space: pre-line;
         }
         .modal-footer {
             display: flex;
@@ -626,6 +626,7 @@
                 <input type="text" id="inpManualInsurance" inputmode="numeric" placeholder="در صورت خالی بودن، ۰.۰۵٪ محاسبه می‌شود">
             </div>
 
+            <!-- چک‌باکس‌های استاندارد و غذا و دارو (تغییر به ۲ در هزار) -->
             <div class="checkbox-container">
                 <div class="checkbox-container-title">
                     <span class="material-icons-round" style="font-size: 1.1rem;">checklist</span>
@@ -633,14 +634,15 @@
                 </div>
                 <div class="checkbox-grid">
                     <label class="check-item">
-                        <input type="checkbox" id="chkStandard" checked> عوارض استاندارد (2 در ۱۰۰۰)
+                        <input type="checkbox" id="chkStandard" checked> عوارض استاندارد (۲ در ۱۰۰۰)
                     </label>
                     <label class="check-item">
-                        <input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (2 در ۱۰۰۰)
+                        <input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (۲ در ۱۰۰۰)
                     </label>
                 </div>
             </div>
 
+            <!-- چک‌باکس‌های باکس ۰۴۲ -->
             <div class="checkbox-container">
                 <div class="checkbox-container-title">
                     <span class="material-icons-round" style="font-size: 1.1rem;">checklist</span>
@@ -665,6 +667,7 @@
                 </div>
             </div>
 
+            <!-- دکمه‌ها -->
             <div class="btn-group">
                 <button class="calc-btn" onclick="calculate('azad')">
                     <span class="material-icons-round">calculate</span> محاسبه آزاد
@@ -676,6 +679,7 @@
         </div>
     </div>
 
+    <!-- کارت نمایش نتایج -->
     <div class="result-card" id="resultCard">
         <div class="section-title" id="resultTitle">
             <span class="material-icons-round">analytics</span> نتایج محاسبات
@@ -684,6 +688,7 @@
         <div id="resultContent"></div>
     </div>
 
+    <!-- پنجره مودال درباره برنامه -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -700,6 +705,7 @@
         </div>
     </div>
 
+    <!-- Toast برای کپی -->
     <div class="toast" id="toast">✅ کپی شد!</div>
 
 </div>
@@ -708,7 +714,7 @@
     let currencyData = [];
 
     // =========================================================
-    // توابع مدیریت پوسته (اصلاح شده برای کارکرد بی‌نهایت)
+    // توابع مدیریت پوسته
     // =========================================================
     function toggleTheme() {
         const html = document.documentElement;
@@ -733,7 +739,6 @@
         document.getElementById('aboutModal').classList.remove('show');
     }
 
-    // بستن مودال با کلیک روی فضای خالی اطراف آن
     document.getElementById('aboutModal').addEventListener('click', function(e) {
         if (e.target === this) closeAboutModal();
     });
@@ -923,6 +928,7 @@
         const tax4 = Math.round((totalValue + tariff) * 0.04);
         let standard = 0;
         let foodDrug = 0;
+        // تغییر به 2 در 1000
         if (document.getElementById('chkStandard').checked) {
             standard = Math.round(totalValue * 0.002);
         }
@@ -963,7 +969,7 @@
     }
 
     // =========================================================
-    // تابع محاسبه مجدد با تخفیف ۵۰٪ (برای تعاونی)
+    // تابع محاسبه مجدد با تخفیف ۵۰٪ (بازنویسی شده برای رفع مشکل)
     // =========================================================
     function recalculateWithDiscount() {
         const card = document.getElementById('resultCard');
@@ -973,30 +979,41 @@
         const discountCheck = document.getElementById('discountCheck');
         const isDiscountActive = discountCheck ? discountCheck.checked : false;
 
-        const resultData = JSON.parse(container.dataset.resultData || '{}');
-        if (!resultData || !resultData.tariff) return;
+        const res = JSON.parse(container.dataset.resultData || '{}');
+        if (!res || !res.tariff) return;
 
         let finalPayment = 0;
+        let activeTariff = res.tariff; // تعرفه‌ای که در نهایت باید به عنوان هزینه در نظر گرفته شود
+
         if (isDiscountActive) {
-            const oldPayment = resultData.tariff + resultData.box042 + resultData.finalVat;
-            const halfTariff = Math.round(resultData.tariff * 0.5);
-            finalPayment = oldPayment + halfTariff;
+            activeTariff = Math.round(res.tariff * 0.5);
+            // جمع پرداختی در این حالت = ارزش افزوده نهایی + 50 درصد حقوق ورودی
+            finalPayment = res.finalVat + activeTariff;
         } else {
-            finalPayment = resultData.finalVat;
+            activeTariff = res.tariff;
+            // جمع پرداختی در حالت عادی تعاونی
+            finalPayment = res.finalVat;
         }
 
+        // بروزرسانی پرداختی نهایی در رابط کاربری
         const totalElement = container.querySelector('.total-payment .total-amount');
         if (totalElement) {
-            totalElement.textContent = formatRial(finalPayment);
+            totalElement.innerHTML = `${formatRial(finalPayment)} <small style="font-weight:500; opacity:0.9;">ریال</small>`;
         }
 
-        const costPerKg = Math.round((finalPayment + resultData.tariff + resultData.box042 + 
-            resultData.tax4 + resultData.standard + resultData.foodDrug) / resultData.weight);
+        // محاسبه دقیق بهای تمام شده کل: 
+        // فرمول صحیح: (ارزش افزوده نهایی) + (تعرفه پرداختی: نصف یا کامل) + (باکس ۰۴۲) + (مالیات ۴٪) + (استاندارد) + (غذا و دارو)
+        const totalCost = res.finalVat + activeTariff + res.box042 + res.tax4 + res.standard + res.foodDrug;
+        const costPerKg = Math.round(totalCost / res.weight);
+        
+        // بروزرسانی قیمت هر کیلو در رابط کاربری
         const kpiElement = container.querySelector('.kpi-val');
         if (kpiElement) {
             kpiElement.innerHTML = `${formatRial(costPerKg)} <span style="font-size:1.1rem; font-weight:normal; opacity:0.8;">ریال</span>`;
+            kpiElement.onclick = () => copyNumber(formatRial(costPerKg));
         }
 
+        // نمایش پیام تایید
         const toast = document.getElementById('toast');
         if (isDiscountActive) {
             toast.textContent = '✅ تخفیف ۵۰٪ حقوق ورودی اعمال شد!';
