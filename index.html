@@ -64,7 +64,7 @@
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: #121214; /* پس‌زمینه تیره برای درخشش نئون */
+            background: #121214; 
             z-index: 99999;
             display: flex;
             flex-direction: column;
@@ -135,22 +135,13 @@
             animation: pulseCore 1s ease-in-out infinite alternate;
         }
 
-        @keyframes spinCW {
-            0% { transform: rotateZ(0deg); }
-            100% { transform: rotateZ(360deg); }
-        }
-        @keyframes spinCCW {
-            0% { transform: rotateZ(360deg); }
-            100% { transform: rotateZ(0deg); }
-        }
+        @keyframes spinCW { 0% { transform: rotateZ(0deg); } 100% { transform: rotateZ(360deg); } }
+        @keyframes spinCCW { 0% { transform: rotateZ(360deg); } 100% { transform: rotateZ(0deg); } }
         @keyframes floatHUD {
             0%, 100% { transform: rotateX(60deg) rotateY(-10deg) rotateZ(0deg) translateZ(0px); }
             50% { transform: rotateX(65deg) rotateY(-5deg) rotateZ(0deg) translateZ(10px); }
         }
-        @keyframes pulseCore {
-            0% { transform: scale(0.8); opacity: 0.7; }
-            100% { transform: scale(1.3); opacity: 1; }
-        }
+        @keyframes pulseCore { 0% { transform: scale(0.8); opacity: 0.7; } 100% { transform: scale(1.3); opacity: 1; } }
 
         .loading-text {
             font-size: 1.1rem;
@@ -214,20 +205,14 @@
             color: #ff5252;
             border: 1px solid rgba(255, 82, 82, 0.3);
         }
-        .btn-reset:hover {
-            background: rgba(255, 82, 82, 0.2);
-            transform: translateY(-1px);
-        }
+        .btn-reset:hover { background: rgba(255, 82, 82, 0.2); transform: translateY(-1px); }
 
         .btn-about {
             background: rgba(37, 99, 235, 0.1);
             color: var(--primary);
             border: 1px solid rgba(37, 99, 235, 0.3);
         }
-        .btn-about:hover {
-            background: rgba(37, 99, 235, 0.2);
-            transform: translateY(-1px);
-        }
+        .btn-about:hover { background: rgba(37, 99, 235, 0.2); transform: translateY(-1px); }
 
         .theme-toggle {
             background: var(--bg-surface);
@@ -244,11 +229,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             flex-shrink: 0;
         }
-        .theme-toggle:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: rotate(15deg);
-        }
+        .theme-toggle:hover { border-color: var(--primary); color: var(--primary); transform: rotate(15deg); }
 
         /* ----- CARDS ----- */
         .card {
@@ -277,17 +258,8 @@
             gap: 16px;
         }
         
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        label.main-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        label.main-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
 
         input[type="text"], input[type="number"], select {
             background: var(--bg-base);
@@ -300,7 +272,6 @@
             transition: var(--transition);
             appearance: none;
             width: 100%;          
-            max-width: 100%;      
             box-sizing: border-box;
         }
         
@@ -310,15 +281,9 @@
             background-position: left 12px center;
             background-size: 16px;
             padding-left: 40px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
         }
 
-        input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 
         /* ----- CHECKBOXES ----- */
         .checkbox-container {
@@ -351,9 +316,9 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-main);
-            font-weight: 500;
+            font-weight: 600;
             user-select: none;
         }
 
@@ -362,8 +327,6 @@
             height: 18px;
             cursor: pointer;
             accent-color: var(--primary-variant);
-            background: var(--bg-base);
-            border: 1px solid var(--border);
         }
 
         /* ----- BUTTONS ----- */
@@ -394,19 +357,10 @@
             gap: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .calc-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .calc-btn:active {
-            transform: scale(0.97);
-        }
-        .calc-btn.taavoni {
-            background: #10b981;
-        }
-        .calc-btn.taavoni:hover {
-            background: #059669;
-        }
+        .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .calc-btn:active { transform: scale(0.97); }
+        .calc-btn.taavoni { background: #10b981; }
+        .calc-btn.taavoni:hover { background: #059669; }
 
         /* ----- RESULTS CARD ----- */
         .result-card {
@@ -419,12 +373,8 @@
             margin-top: 10px;
             display: none;
         }
-        .result-card.visible {
-            display: block;
-        }
-        .result-card.taavoni-mode {
-            border-color: #10b981;
-        }
+        .result-card.visible { display: block; }
+        .result-card.taavoni-mode { border-color: #10b981; }
 
         .result-kpi {
             background: var(--kpi-bg);
@@ -454,21 +404,15 @@
             border: 1px solid transparent;
             transition: var(--transition);
             cursor: pointer;
-            position: relative;
         }
-        .detail-item:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-        .detail-item:active {
-            transform: scale(0.97);
-        }
+        .detail-item:hover { border-color: var(--primary); transform: translateY(-2px); }
         [data-theme="dark"] .detail-item { border-color: transparent; }
         [data-theme="light"] .detail-item { border-color: var(--border); }
         
         .detail-title { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
         .detail-val { font-size: 1.05rem; font-weight: 800; font-family: monospace; color: var(--text-main); }
 
+        /* BOX 042 CHIPS STYLE */
         .box042 {
             grid-column: 1 / -1;
             background: var(--box042-bg);
@@ -484,13 +428,29 @@
             margin-bottom: 10px;
             font-size: 0.95rem;
         }
-        .box042-breakdown {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .box042-chips {
+            display: flex;
+            flex-wrap: wrap;
             gap: 8px;
+        }
+        .box042-chip {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 50px;
             font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .box042-chip-val {
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 0.9rem;
+            font-weight: 800;
         }
 
         .total-payment {
@@ -510,7 +470,7 @@
         .total-payment.taavoni { background: #10b981; }
         [data-theme="light"] .total-payment { color: #ffffff; }
 
-        /* ----- TOAST (NOTIFICATIONS) ----- */
+        /* ----- TOAST & BADGES ----- */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -528,13 +488,9 @@
             z-index: 9999;
             font-size: 0.9rem;
             text-align: center;
-            max-width: 90%;
-            line-height: 1.4;
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast.warning { background: #f59e0b; color: #fff; }
-        .toast.error { background: #ef4444; color: #fff; }
-        .toast.success { background: var(--primary-variant); color: #fff; }
+        .toast.error { background: #ef4444; }
 
         .mode-badge {
             display: inline-block;
@@ -566,12 +522,6 @@
             align-items: center;
             gap: 8px;
         }
-        .discount-checkbox-container input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #10b981;
-        }
 
         /* ----- MODAL ----- */
         .modal-overlay {
@@ -601,48 +551,23 @@
             transition: var(--transition);
         }
         .modal-overlay.show .modal-card { transform: translateY(0); }
-        .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
-        .modal-header h3 { font-size: 1.1rem; color: var(--text-main); font-weight: 800; }
-        .modal-body { font-size: 0.95rem; color: var(--text-main); line-height: 1.7; white-space: pre-line; }
+        .modal-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .modal-header h3 { font-size: 1.1rem; font-weight: 800; }
+        .modal-body { font-size: 0.95rem; line-height: 1.7; white-space: pre-line; }
         .modal-footer { display: flex; justify-content: flex-end; margin-top: 24px; }
-        .modal-close-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-        .modal-close-btn:hover { background: var(--primary-variant); }
+        .modal-close-btn { background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; }
 
         @media (max-width: 480px) {
             .app-header { padding: 0 10px; flex-direction: column; align-items: flex-start; gap: 12px; }
             .theme-toggle { position: absolute; left: 14px; top: 20px; }
-            .app-container { gap: 16px; }
-            .card { padding: 18px; }
-            .input-grid { grid-template-columns: 1fr; }
             .kpi-val { font-size: 2rem; }
             .total-payment { flex-direction: column; gap: 8px; text-align: center; }
             .btn-group { flex-direction: column; }
-            .calc-btn { min-width: unset; }
-            .header-group { width: 100%; gap: 8px; }
-            .btn-reset, .btn-about { flex: 1; justify-content: center; padding: 8px; }
         }
     </style>
 </head>
 <body>
 
-<!-- صفحه لودینگ 3D HUD نئونی -->
 <div id="loadingOverlay" class="loading-overlay">
     <div class="neon-hud-wrapper">
         <div class="neon-hud">
@@ -658,14 +583,12 @@
 <div class="app-container">
     <div class="app-header">
         <div class="header-group">
-            <div class="app-title">
-                <span class="material-icons-round">local_shipping</span> گمرک‌یار
-            </div>
+            <div class="app-title"><span class="material-icons-round">local_shipping</span> گمرک‌یار</div>
             <button class="btn-reset" onclick="resetForm()" title="پاک کردن تمام اطلاعات فرم">
-                <span class="material-icons-round" style="font-size: 1.1rem;">restart_alt</span> ریست فرم
+                <span class="material-icons-round" style="font-size: 1.1rem;">restart_alt</span> ریست
             </button>
             <button class="btn-about" onclick="openAboutModal()" title="مشاهده اطلاعات توسعه‌دهنده">
-                <span class="material-icons-round" style="font-size: 1.1rem;">info</span> درباره برنامه
+                <span class="material-icons-round" style="font-size: 1.1rem;">info</span> درباره
             </button>
         </div>
         <button class="theme-toggle" onclick="toggleTheme()" title="تغییر پوسته">
@@ -688,15 +611,13 @@
             </div>
 
             <div class="input-group" style="grid-column: 1 / -1;">
-                <label class="main-label">انتخاب ارز گمرکی (دریافت از سرور)</label>
-                <select id="inpCurrency">
-                    <option value="">در حال بارگذاری نرخ‌ها...</option>
-                </select>
+                <label class="main-label">انتخاب ارز گمرکی</label>
+                <select id="inpCurrency"><option value="">در حال بارگذاری نرخ‌ها...</option></select>
             </div>
 
             <div class="input-group">
                 <label class="main-label">نرخ تبدیل ارز (ریال)</label>
-                <input type="text" id="inpRate" inputmode="numeric" placeholder="نرخ به‌صورت خودکار درج می‌شود">
+                <input type="text" id="inpRate" inputmode="numeric" placeholder="خودکار درج می‌شود">
             </div>
 
             <div class="input-group">
@@ -706,45 +627,49 @@
 
             <div class="input-group" style="grid-column: 1 / -1;">
                 <label class="main-label" style="color: var(--primary);">مبلغ بیمه حمل (ریال - اختیاری)</label>
-                <input type="text" id="inpManualInsurance" inputmode="numeric" placeholder="در صورت خالی بودن، ۰.۰۵٪ با نرخ گمرکی محاسبه می‌شود">
+                <input type="text" id="inpManualInsurance" inputmode="numeric" placeholder="در صورت خالی بودن، ۰.۰۵٪ با نرخ گمرکی">
             </div>
 
             <div class="checkbox-container">
                 <div class="checkbox-container-title">
                     <span class="material-icons-round" style="font-size: 1.1rem;">checklist</span>
-                    موارد محاسباتی (فعال / غیرفعال)
+                    موارد محاسباتی ثابت (فعال / غیرفعال)
                 </div>
                 <div class="checkbox-grid">
-                    <label class="check-item">
-                        <input type="checkbox" id="chkStandard" checked> عوارض استاندارد (۲ در ۱۰۰۰)
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (۲ در ۱۰۰۰)
-                    </label>
+                    <label class="check-item"><input type="checkbox" id="chkStandard" checked> عوارض استاندارد (۲ در ۱۰۰۰)</label>
+                    <label class="check-item"><input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (۲ در ۱۰۰۰)</label>
                 </div>
             </div>
 
+            <!-- بخش جدید و داینامیک باکس ۰۴۲ -->
             <div class="checkbox-container">
                 <div class="checkbox-container-title">
-                    <span class="material-icons-round" style="font-size: 1.1rem;">checklist</span>
-                    موارد باکس ۰۴۲ (فعال / غیرفعال)
+                    <span class="material-icons-round" style="font-size: 1.1rem;">account_balance_wallet</span>
+                    موارد باکس ۰۴۲ (داینامیک بر اساس فایل پیوست)
                 </div>
-                <div class="checkbox-grid">
-                    <label class="check-item"><input type="checkbox" id="chkRed" checked> هلال احمر (۱٪ ورودی)</label>
-                    <label class="check-item"><input type="checkbox" id="chkAnimal" checked> نهاده دامی (۱٪ ارزش)</label>
-                    <label class="check-item"><input type="checkbox" id="chkTax12" checked> عوارض ۱۲ در ۱۰۰۰</label>
-                    <label class="check-item"><input type="checkbox" id="chkTax200" checked> عوارض وزنی</label>
-                    <label class="check-item"><input type="checkbox" id="chkPasmand"> پسماند (۰.۰۵٪ ارزش)</label>
+                <div class="checkbox-grid" id="box042-container">
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="tariff" data-rate="0.01" data-name="هلال احمر" checked> هلال احمر (۱٪ ورودی)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="value" data-rate="0.01" data-name="نهاده دامی"> نهاده دامی (۱٪ ارزش)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="value" data-rate="0.012" data-name="عوارض ۱۲ در ۱۰۰۰" checked> عوارض ۱۲ در ۱۰۰۰</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="value" data-rate="0.0005" data-name="پسماند"> پسماند (۰.۰۵٪ ارزش)</label>
+                    
+                    <!-- آیتم‌های اضافه شده از PDF -->
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="2750" data-name="گوشت قرمز"> گوشت قرمز (۲۷۵۰ ر/ک)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="1100" data-name="گوشت مرغ"> گوشت مرغ (۱۱۰۰ ر/ک)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="value" data-rate="0.10" data-name="خودرو بنزینی"> خودرو بنزینی (۱۰٪ ارزش)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="value" data-rate="0.05" data-name="خودرو سواری"> خودرو سواری (۵٪ ارزش)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="value" data-rate="0.10" data-name="کالای آسیب‌رسان"> کالای آسیب‌رسان (۱۰٪ ارزش)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="200" data-name="غلات/چوب/دانه"> غلات/چوب... (۲۰۰ ر/ک)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="300" data-name="عوارض چای"> چای (۳۰۰ ر/ک)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="500" data-name="پنبه/کنجاله"> پنبه/کنجاله (۵۰۰ ر/ک)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="700" data-name="میوه و سبزیجات"> میوه/سبزیجات (۷۰۰ ر/ک)</label>
+                    <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="14640" data-name="سم کشاورزی"> سم آماده (۱۴۶۴۰ ر/ک)</label>
                 </div>
             </div>
 
             <div class="btn-group">
-                <button class="calc-btn" onclick="calculate('azad')">
-                    <span class="material-icons-round">calculate</span> محاسبه آزاد
-                </button>
-                <button class="calc-btn taavoni" onclick="calculate('taavoni')">
-                    <span class="material-icons-round">apartment</span> محاسبات تعاونی
-                </button>
+                <button class="calc-btn" onclick="calculate('azad')"><span class="material-icons-round">calculate</span> محاسبه آزاد</button>
+                <button class="calc-btn taavoni" onclick="calculate('taavoni')"><span class="material-icons-round">apartment</span> محاسبات تعاونی</button>
             </div>
         </div>
     </div>
@@ -759,17 +684,10 @@
 
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-card">
-            <div class="modal-header">
-                <span class="material-icons-round" style="color: var(--primary);">info</span>
-                <h3>درباره برنامه</h3>
-            </div>
+            <div class="modal-header"><span class="material-icons-round" style="color: var(--primary);">info</span><h3>درباره برنامه</h3></div>
             <div class="modal-body">برنامه نویسی حیدر حیدری
-
-جهت درخواست برنامه نویسی و انجام کار در تلگرام به آیدی <a href="https://t.me/H31dar" target="_blank" style="color: var(--primary-variant); text-decoration: none; font-weight: bold; direction: ltr; display: inline-block;">@H31dar</a> پیام بدهید.
-با تشکر</div>
-            <div class="modal-footer">
-                <button class="modal-close-btn" onclick="closeAboutModal()">بستن</button>
-            </div>
+جهت درخواست برنامه نویسی و انجام کار در تلگرام به آیدی <a href="https://t.me/H31dar" target="_blank" style="color: var(--primary-variant); font-weight: bold; direction: ltr; display: inline-block;">@H31dar</a> پیام بدهید.</div>
+            <div class="modal-footer"><button class="modal-close-btn" onclick="closeAboutModal()">بستن</button></div>
         </div>
     </div>
 
@@ -781,7 +699,6 @@
     let currencyData = [];
     let toastTimeout;
 
-    // تابع برای اعمال محدودیت زمانی روی fetch
     async function fetchWithTimeout(resource, options = {}) {
         const { timeout = 8000 } = options;
         const controller = new AbortController();
@@ -793,415 +710,207 @@
 
     function showNotification(message, type = 'success', duration = 4000) {
         const toast = document.getElementById('toast');
-        toast.className = 'toast'; 
-        toast.classList.add(type);
+        toast.className = `toast ${type} show`;
         toast.textContent = message;
-        toast.classList.add('show');
         if (toastTimeout) clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, duration);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), duration);
     }
 
     function toggleTheme() {
         const html = document.documentElement;
         const icon = document.getElementById('themeIcon');
         if (html.getAttribute('data-theme') === 'dark') {
-            html.setAttribute('data-theme', 'light');
-            icon.textContent = 'dark_mode';
+            html.setAttribute('data-theme', 'light'); icon.textContent = 'dark_mode';
         } else {
-            html.setAttribute('data-theme', 'dark');
-            icon.textContent = 'light_mode';
+            html.setAttribute('data-theme', 'dark'); icon.textContent = 'light_mode';
         }
     }
 
     function openAboutModal() { document.getElementById('aboutModal').classList.add('show'); }
     function closeAboutModal() { document.getElementById('aboutModal').classList.remove('show'); }
-    document.getElementById('aboutModal').addEventListener('click', function(e) {
-        if (e.target === this) closeAboutModal();
-    });
+    document.getElementById('aboutModal').addEventListener('click', function(e) { if (e.target === this) closeAboutModal(); });
 
     async function fetchCurrencies() {
         const select = document.getElementById('inpCurrency');
         const loadingOverlay = document.getElementById('loadingOverlay');
-        
         loadingOverlay.classList.remove('hidden');
         select.innerHTML = '<option value="">در حال بارگذاری نرخ‌ها...</option>';
-        document.getElementById('inpRate').value = '';
-
+        
         let gomrokSuccess = false;
-
         try {
-            const responseGomrok = await fetchWithTimeout('https://gomrokyar.heidar.workers.dev/', { timeout: 8000 });
-            if (!responseGomrok.ok) throw new Error('Gomrok HTTP Error');
-            const resultGomrok = await responseGomrok.json();
-            
-            if (resultGomrok.success && resultGomrok.data && resultGomrok.data.length > 0) {
-                currencyData = resultGomrok.data;
-                gomrokSuccess = true;
-            } else {
-                throw new Error('Invalid Gomrok Structure');
-            }
-        } catch (error) {
-            console.warn('خطا در دریافت گمرک:', error);
-            showNotification('خطا در اتصال به سرور! ارزهای پیش‌فرض بارگذاری شدند.', 'error', 5000);
+            const res = await fetchWithTimeout('https://gomrokyar.heidar.workers.dev/', { timeout: 8000 });
+            const result = await res.json();
+            if (result.success && result.data?.length > 0) { currencyData = result.data; gomrokSuccess = true; }
+        } catch (err) {
+            showNotification('خطا در اتصال به سرور! نرخ‌های پیش‌فرض بارگذاری شدند.', 'error', 5000);
         }
 
         select.innerHTML = '<option value="">-- انتخاب ارز مورد نظر --</option>';
         if (gomrokSuccess) {
             currencyData.forEach(item => {
                 const safeRate = String(item.rate).replace(/,/g, '').replace(/[^0-9.]/g, '');
-                const option = document.createElement('option');
-                option.value = safeRate;
-                option.textContent = `${item.currency} : ${Number(safeRate).toLocaleString('en-US')} ریال`;
-                select.appendChild(option);
+                select.insertAdjacentHTML('beforeend', `<option value="${safeRate}">${item.currency} : ${Number(safeRate).toLocaleString('en-US')} ریال</option>`);
             });
         } else {
-            select.innerHTML = `
-                <option value="">⚠️ استفاده از نرخ‌های آفلاین گمرکی</option>
+            select.innerHTML += `
                 <option value="1310661">دلار آمریکا (USD) : 1,310,661 ریال</option>
                 <option value="1551964">یورو (EUR) : 1,551,964 ریال</option>
-                <option value="188931">یوان چین (CNY) : 188,931 ریال</option>
                 <option value="356885">درهم امارات (AED) : 356,885 ریال</option>
             `;
         }
-
-        if (select.value) {
-            document.getElementById('inpRate').value = Number(select.value).toLocaleString('en-US');
-        }
-
         loadingOverlay.classList.add('hidden');
     }
 
     function resetForm() {
-        document.getElementById('inpWeight').value = '';
-        document.getElementById('inpAmount').value = '';
-        document.getElementById('inpCurrency').value = '';
-        document.getElementById('inpRate').value = '';
+        ['inpWeight', 'inpAmount', 'inpCurrency', 'inpRate', 'inpManualInsurance'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('inpTariff').value = '5';
-        document.getElementById('inpManualInsurance').value = '';
-        
-        document.getElementById('chkRed').checked = true;
-        document.getElementById('chkAnimal').checked = true;
-        document.getElementById('chkTax12').checked = true;
-        document.getElementById('chkTax200').checked = true;
-        document.getElementById('chkPasmand').checked = false;
         document.getElementById('chkStandard').checked = true;
         document.getElementById('chkFoodDrug').checked = true;
 
+        document.querySelectorAll('.box042-item').forEach(el => {
+            const name = el.getAttribute('data-name');
+            el.checked = ['هلال احمر', 'عوارض ۱۲ در ۱۰۰۰'].includes(name);
+        });
+
         document.getElementById('resultCard').classList.remove('visible', 'taavoni-mode');
         document.getElementById('resultContent').innerHTML = '';
-        const discountCheck = document.getElementById('discountCheck');
-        if (discountCheck) discountCheck.checked = false;
     }
 
-    function getNum(id) {
-        const val = document.getElementById(id).value.replace(/,/g, '').replace(/[^0-9.]/g, '');
-        return parseFloat(val) || 0;
-    }
-
-    function formatRial(val) {
-        if (isNaN(val)) return '۰';
-        return Math.round(val).toLocaleString('en-US');
-    }
+    function getNum(id) { return parseFloat(document.getElementById(id).value.replace(/,/g, '').replace(/[^0-9.]/g, '')) || 0; }
+    function formatRial(val) { return isNaN(val) ? '۰' : Math.round(val).toLocaleString('en-US'); }
 
     function copyNumber(text) {
         if (!text) return;
-        navigator.clipboard.writeText(text).then(() => {
-            showNotification(`✅ ${text} کپی شد!`, 'success', 2000);
-        }).catch(() => {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            showNotification(`✅ ${text} کپی شد!`, 'success', 2000);
+        navigator.clipboard.writeText(text).then(() => showNotification(`✅ ${text} کپی شد!`))
+        .catch(() => {
+            const txt = document.createElement('textarea'); txt.value = text; document.body.appendChild(txt);
+            txt.select(); document.execCommand('copy'); document.body.removeChild(txt);
+            showNotification(`✅ ${text} کپی شد!`);
         });
     }
 
     ['inpWeight', 'inpAmount', 'inpRate', 'inpManualInsurance'].forEach(id => {
-        document.getElementById(id).addEventListener('input', function(e) {
-            let value = e.target.value.replace(/,/g, '').replace(/[^0-9.]/g, '');
-            if(value !== '') {
-                let parts = value.split('.');
-                parts[0] = parseInt(parts[0]).toLocaleString('en-US');
-                e.target.value = parts.join('.');
-            } else {
-                e.target.value = '';
-            }
+        document.getElementById(id).addEventListener('input', e => {
+            let val = e.target.value.replace(/,/g, '').replace(/[^0-9.]/g, '');
+            e.target.value = val ? parseInt(val.split('.')[0]).toLocaleString('en-US') + (val.includes('.') ? '.' + val.split('.')[1] : '') : '';
             document.getElementById('resultCard').classList.remove('visible');
         });
     });
 
-    ['chkRed', 'chkAnimal', 'chkTax12', 'chkTax200', 'chkPasmand', 'chkStandard', 'chkFoodDrug'].forEach(id => {
-        document.getElementById(id).addEventListener('change', function() {
-            document.getElementById('resultCard').classList.remove('visible');
-        });
-    });
-
-    document.getElementById('inpCurrency').addEventListener('change', function(e) {
-        const rateValue = e.target.value;
-        if (rateValue) {
-            document.getElementById('inpRate').value = Number(rateValue).toLocaleString('en-US');
-        } else {
-            document.getElementById('inpRate').value = '';
-        }
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', () => document.getElementById('resultCard').classList.remove('visible')));
+    
+    document.getElementById('inpCurrency').addEventListener('change', e => {
+        document.getElementById('inpRate').value = e.target.value ? Number(e.target.value).toLocaleString('en-US') : '';
         document.getElementById('resultCard').classList.remove('visible');
     });
 
     function calculate(mode) {
-        const weight = getNum('inpWeight');
-        const amount = getNum('inpAmount');
-        const rate = getNum('inpRate');
+        const weight = getNum('inpWeight'), amount = getNum('inpAmount'), rate = getNum('inpRate');
         const tariffPct = parseFloat(document.getElementById('inpTariff').value) || 0;
         const manualInsurance = getNum('inpManualInsurance'); 
 
-        if (!weight || !amount || !rate) {
-            showNotification('لطفاً مقادیر وزن، ارزش و نرخ ارز را کامل و به‌درستی وارد کنید.', 'error');
-            return;
-        }
+        if (!weight || !amount || !rate) return showNotification('مقادیر وزن، ارزش و نرخ ارز را کامل وارد کنید.', 'error');
 
-        // محاسبه بیمه بر اساس نرخ گمرکی انتخاب‌شده یا وارد شده (بدون نرخ آزاد)
-        let insurance = 0;
-        if (manualInsurance > 0) {
-            insurance = manualInsurance;
-        } else {
-            insurance = Math.round(amount * 0.0005 * rate); 
-        }
-
+        const insurance = manualInsurance > 0 ? manualInsurance : Math.round(amount * 0.0005 * rate);
         const totalValue = Math.round((amount * rate) + insurance + 1); 
         const tariff = Math.round(totalValue * (tariffPct / 100));
 
-        const isRed = document.getElementById('chkRed').checked;
-        const isAnimal = document.getElementById('chkAnimal').checked;
-        const isTax12 = document.getElementById('chkTax12').checked;
-        const isTax200 = document.getElementById('chkTax200').checked;
-        const isPasmand = document.getElementById('chkPasmand').checked;
+        // محاسبه داینامیک باکس 042 با متدهای جدید
+        let box042 = 0, box042ItemsHtml = '';
+        document.querySelectorAll('.box042-item:checked').forEach(item => {
+            const type = item.getAttribute('data-type');
+            const itemRate = parseFloat(item.getAttribute('data-rate'));
+            let itemCost = type === 'tariff' ? Math.round(tariff * itemRate) : type === 'value' ? Math.round(totalValue * itemRate) : Math.round(weight * itemRate);
+            box042 += itemCost;
+            box042ItemsHtml += `<div class="box042-chip" onclick="copyNumber('${formatRial(itemCost)}')"><span style="color:var(--text-muted)">${item.getAttribute('data-name')}:</span> <span class="box042-chip-val">${formatRial(itemCost)}</span></div>`;
+        });
+        if (!box042ItemsHtml) box042ItemsHtml = '<div style="opacity:0.6; font-size:0.85rem;">موردی انتخاب نشده است</div>';
 
-        const redCrescent = isRed ? Math.round(tariff * 0.01) : 0;
-        const animalFeed = isAnimal ? Math.round(totalValue * 0.01) : 0;
-        const tax12 = isTax12 ? Math.round(totalValue * 0.012) : 0;
-        const tax200 = isTax200 ? Math.round(weight * 200) : 0;
-        const pasmand = isPasmand ? Math.round(totalValue * 0.0005) : 0; 
-        const box042 = redCrescent + animalFeed + tax12 + tax200 + pasmand;
-
-        const tax4 = Math.round((totalValue + tariff) * 0.04);
-        let standard = 0;
-        let foodDrug = 0;
-        if (document.getElementById('chkStandard').checked) {
-            standard = Math.round(totalValue * 0.002);
-        }
-        if (document.getElementById('chkFoodDrug').checked) {
-            foodDrug = Math.round(totalValue * 0.002);
-        }
-
+        const tax4 = Math.round((totalValue + tariff) * 0.02);
+        const standard = document.getElementById('chkStandard').checked ? Math.round(totalValue * 0.002) : 0;
+        const foodDrug = document.getElementById('chkFoodDrug').checked ? Math.round(totalValue * 0.002) : 0;
         const vat = Math.round((totalValue + tariff) * 0.10);
 
-        let discount = 0;
-        let finalVat = vat;
-        let totalPayment = 0;
-        let costPerKg = 0;
+        let discount = 0, finalVat = vat, totalPayment = 0, costPerKg = 0;
 
         if (mode === 'taavoni') {
             discount = Math.round((vat / 10) * 4);
             finalVat = vat - discount;
             totalPayment = finalVat;
-            const totalCost = totalPayment + tariff + box042 + tax4 + standard + foodDrug;
-            costPerKg = Math.round(totalCost / weight);
+            costPerKg = Math.round((totalPayment + tariff + box042 + tax4 + standard + foodDrug) / weight);
         } else {
             totalPayment = tariff + box042 + vat;
-            const totalCost = totalPayment + tax4 + standard + foodDrug;
-            costPerKg = Math.round(totalCost / weight);
+            costPerKg = Math.round((totalPayment + tax4 + standard + foodDrug) / weight);
         }
 
-        const result = {
-            mode,
-            insurance, totalValue, tariff, box042, vat, finalVat, discount,
-            tax4, standard, foodDrug, totalPayment, costPerKg,
-            redCrescent, animalFeed, tax12, tax200, pasmand,
-            isRed, isAnimal, isTax12, isTax200, isPasmand,
-            manualInsurance, weight, amount, rate, tariffPct
-        };
-
-        renderResult(result);
+        renderResult({ mode, insurance, totalValue, tariff, box042, box042ItemsHtml, vat, finalVat, discount, tax4, standard, foodDrug, totalPayment, costPerKg, manualInsurance, weight });
         showResultCard(mode);
     }
 
     function recalculateWithDiscount() {
-        const card = document.getElementById('resultCard');
-        if (!card.classList.contains('taavoni-mode')) return;
-
         const container = document.getElementById('resultContent');
-        const discountCheck = document.getElementById('discountCheck');
-        const isDiscountActive = discountCheck ? discountCheck.checked : false;
-
         const res = JSON.parse(container.dataset.resultData || '{}');
-        if (!res || !res.tariff) return;
+        if (!res.tariff) return;
 
-        let finalPayment = 0;
-        let activeTariff = res.tariff; 
-
-        if (isDiscountActive) {
-            activeTariff = Math.round(res.tariff * 0.5);
-            finalPayment = res.finalVat + activeTariff;
-        } else {
-            activeTariff = res.tariff;
-            finalPayment = res.finalVat;
-        }
-
-        const totalElement = container.querySelector('.total-payment .total-amount');
-        if (totalElement) {
-            totalElement.innerHTML = `${formatRial(finalPayment)} <small style="font-weight:500; opacity:0.9;">ریال</small>`;
-        }
-
-        const totalCost = res.finalVat + activeTariff + res.box042 + res.tax4 + res.standard + res.foodDrug;
-        const costPerKg = Math.round(totalCost / res.weight);
+        const isDiscountActive = document.getElementById('discountCheck')?.checked || false;
+        const finalPayment = isDiscountActive ? res.finalVat + Math.round(res.tariff * 0.5) : res.finalVat;
+        const costPerKg = Math.round((res.finalVat + (isDiscountActive ? Math.round(res.tariff * 0.5) : res.tariff) + res.box042 + res.tax4 + res.standard + res.foodDrug) / res.weight);
         
-        const kpiElement = container.querySelector('.kpi-val');
-        if (kpiElement) {
-            kpiElement.innerHTML = `${formatRial(costPerKg)} <span style="font-size:1.1rem; font-weight:normal; opacity:0.8;">ریال</span>`;
-            kpiElement.onclick = () => copyNumber(formatRial(costPerKg));
-        }
+        container.querySelector('.total-payment .total-amount').innerHTML = `${formatRial(finalPayment)} <small>ریال</small>`;
+        const kpi = container.querySelector('.kpi-val');
+        kpi.innerHTML = `${formatRial(costPerKg)} <span style="font-size:1.1rem; opacity:0.8;">ریال</span>`;
+        kpi.onclick = () => copyNumber(formatRial(costPerKg));
     }
 
     function showResultCard(mode) {
-        const card = document.getElementById('resultCard');
-        const badge = document.getElementById('modeBadge');
-        const title = document.getElementById('resultTitle');
-
-        card.classList.add('visible');
-        card.classList.remove('taavoni-mode');
-
-        if (mode === 'taavoni') {
-            card.classList.add('taavoni-mode');
-            badge.textContent = 'تعاونی';
-            badge.className = 'mode-badge taavoni';
-            title.innerHTML = `
-                <span class="material-icons-round">apartment</span> نتایج محاسبات تعاونی
-                <span class="mode-badge taavoni">تعاونی</span>
-            `;
-        } else {
-            badge.textContent = 'آزاد';
-            badge.className = 'mode-badge azad';
-            title.innerHTML = `
-                <span class="material-icons-round">analytics</span> نتایج محاسبات آزاد
-                <span class="mode-badge azad">آزاد</span>
-            `;
-        }
-
+        const card = document.getElementById('resultCard'), badge = document.getElementById('modeBadge'), title = document.getElementById('resultTitle');
+        card.className = `result-card visible ${mode === 'taavoni' ? 'taavoni-mode' : ''}`;
+        badge.className = `mode-badge ${mode}`;
+        badge.textContent = mode === 'taavoni' ? 'تعاونی' : 'آزاد';
+        title.innerHTML = `<span class="material-icons-round">${mode === 'taavoni' ? 'apartment' : 'analytics'}</span> نتایج محاسبات ${badge.textContent} <span class="${badge.className}">${badge.textContent}</span>`;
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function renderResult(res) {
         const container = document.getElementById('resultContent');
-        const isTaavoni = res.mode === 'taavoni';
-
         container.dataset.resultData = JSON.stringify(res);
-
-        let insuranceTitle = res.manualInsurance > 0 ? 'بیمه حمل (دستی)' : 'بیمه حمل (۰.۰۵٪ گمرکی)';
-
-        let box042Breakdown = '';
-        if (res.isRed) box042Breakdown += `<div>• هلال احمر: ${formatRial(res.redCrescent)}</div>`;
-        if (res.isAnimal) box042Breakdown += `<div>• نهاده دامی: ${formatRial(res.animalFeed)}</div>`;
-        if (res.isTax12) box042Breakdown += `<div>• عوارض ۱۲ در ۱۰۰۰: ${formatRial(res.tax12)}</div>`;
-        if (res.isTax200) box042Breakdown += `<div>• عوارض وزنی: ${formatRial(res.tax200)}</div>`;
-        if (res.isPasmand) box042Breakdown += `<div>• پسماند (۰.۰۵٪): ${formatRial(res.pasmand)}</div>`;
-        if (box042Breakdown === '') {
-            box042Breakdown = '<div style="opacity:0.6; padding: 4px 0;">هیچ موردی انتخاب نشده است</div>';
-        }
-
-        let discountRow = '';
-        let discountCheckboxHTML = '';
-        if (isTaavoni) {
-            discountRow = `
-                <div class="detail-item" style="border: 2px solid #10b981; background: var(--box042-bg);" onclick="copyNumber('${formatRial(res.discount)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title" style="color: #10b981;">🎯 تخفیف عوارض (تعاونی)</span>
-                    <span class="detail-val" style="color: #10b981;">- ${formatRial(res.discount)} ریال</span>
-                </div>
-            `;
-            discountCheckboxHTML = `
-                <div class="discount-checkbox-container">
-                    <label>
-                        <input type="checkbox" id="discountCheck" onchange="recalculateWithDiscount()">
-                        <span style="font-size: 1rem;">🎯 اعمال تخفیف ۵۰٪ حقوق ورودی</span>
-                    </label>
-                    <span style="font-size: 0.8rem; color: var(--text-muted);">
-                        (جمع پرداختی = محاسبات قدیم + ۵۰٪ حقوق ورودی)
-                    </span>
-                </div>
-            `;
-        }
-
-        let totalClass = isTaavoni ? 'total-payment taavoni' : 'total-payment';
-        let totalAmount = isTaavoni ? res.finalVat : res.totalPayment;
-        let totalLabel = isTaavoni ? 'جمع پرداختی به گمرک (تعاونی)' : 'جمع کل پرداختی به گمرک';
+        const isTaav = res.mode === 'taavoni';
 
         container.innerHTML = `
             <div class="result-kpi">
                 <div class="kpi-title">بهای تمام شده هر کیلوگرم خالص</div>
-                <div class="kpi-val" onclick="copyNumber('${formatRial(res.costPerKg)}')" style="cursor: pointer;" title="برای کپی کلیک کنید">
-                    ${formatRial(res.costPerKg)} <span style="font-size:1.1rem; font-weight:normal; opacity:0.8;">ریال</span>
-                </div>
+                <div class="kpi-val" onclick="copyNumber('${formatRial(res.costPerKg)}')" style="cursor:pointer" title="کپی">${formatRial(res.costPerKg)} <span style="font-size:1.1rem; font-weight:normal; opacity:0.8;">ریال</span></div>
             </div>
 
             <div class="details-grid">
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.insurance)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">${insuranceTitle}</span>
-                    <span class="detail-val">${formatRial(res.insurance)}</span>
-                </div>
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.totalValue)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">ارزش کل ریالی (سیف)</span>
-                    <span class="detail-val">${formatRial(res.totalValue)}</span>
-                </div>
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.tariff)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">حقوق ورودی</span>
-                    <span class="detail-val">${formatRial(res.tariff)}</span>
-                </div>
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.vat)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">ارزش افزوده (۱۰٪)</span>
-                    <span class="detail-val">${formatRial(res.vat)}</span>
-                </div>
-                ${discountRow}
-                ${isTaavoni ? `<div class="detail-item" onclick="copyNumber('${formatRial(res.finalVat)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">ارزش افزوده نهایی (پس از تخفیف)</span>
-                    <span class="detail-val">${formatRial(res.finalVat)}</span>
-                </div>` : ''}
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.tax4)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">مالیات ۴٪ علی‌الحساب</span>
-                    <span class="detail-val">${formatRial(res.tax4)}</span>
-                </div>
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.standard)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">عوارض استاندارد</span>
-                    <span class="detail-val">${formatRial(res.standard)}</span>
-                </div>
-                <div class="detail-item" onclick="copyNumber('${formatRial(res.foodDrug)}')" title="برای کپی کلیک کنید">
-                    <span class="detail-title">غذا و دارو</span>
-                    <span class="detail-val">${formatRial(res.foodDrug)}</span>
-                </div>
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.insurance)}')"><span class="detail-title">${res.manualInsurance > 0 ? 'بیمه حمل (دستی)' : 'بیمه حمل (۰.۰۵٪)'}</span><span class="detail-val">${formatRial(res.insurance)}</span></div>
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.totalValue)}')"><span class="detail-title">ارزش کل ریالی (سیف)</span><span class="detail-val">${formatRial(res.totalValue)}</span></div>
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.tariff)}')"><span class="detail-title">حقوق ورودی</span><span class="detail-val">${formatRial(res.tariff)}</span></div>
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.vat)}')"><span class="detail-title">ارزش افزوده (۱۰٪)</span><span class="detail-val">${formatRial(res.vat)}</span></div>
+                
+                ${isTaav ? `<div class="detail-item" style="border: 2px solid #10b981; background: var(--box042-bg);" onclick="copyNumber('${formatRial(res.discount)}')"><span class="detail-title" style="color: #10b981;">🎯 تخفیف (تعاونی)</span><span class="detail-val" style="color: #10b981;">- ${formatRial(res.discount)} ریال</span></div>
+                            <div class="detail-item" onclick="copyNumber('${formatRial(res.finalVat)}')"><span class="detail-title">ارزش افزوده نهایی</span><span class="detail-val">${formatRial(res.finalVat)}</span></div>` : ''}
+                
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.tax4)}')"><span class="detail-title">مالیات 2٪ علی‌الحساب</span><span class="detail-val">${formatRial(res.tax4)}</span></div>
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.standard)}')"><span class="detail-title">عوارض استاندارد</span><span class="detail-val">${formatRial(res.standard)}</span></div>
+                <div class="detail-item" onclick="copyNumber('${formatRial(res.foodDrug)}')"><span class="detail-title">غذا و دارو</span><span class="detail-val">${formatRial(res.foodDrug)}</span></div>
                 
                 <div class="box042">
-                    <div class="box042-header">
-                        <span>تجمیع باکس ۰۴۲</span>
-                        <span onclick="copyNumber('${formatRial(res.box042)}')" style="cursor: pointer;" title="برای کپی کلیک کنید">${formatRial(res.box042)} ریال</span>
-                    </div>
-                    <div class="box042-breakdown">
-                        ${box042Breakdown}
-                    </div>
+                    <div class="box042-header"><span>تجمیع عوارض باکس ۰۴۲</span><span onclick="copyNumber('${formatRial(res.box042)}')">${formatRial(res.box042)} ریال</span></div>
+                    <div class="box042-chips">${res.box042ItemsHtml}</div>
                 </div>
 
-                ${discountCheckboxHTML}
+                ${isTaav ? `<div class="discount-checkbox-container"><label><input type="checkbox" id="discountCheck" onchange="recalculateWithDiscount()"><span>🎯 اعمال تخفیف ۵۰٪ حقوق ورودی</span></label></div>` : ''}
 
-                <div class="${totalClass}" onclick="copyNumber('${formatRial(totalAmount)}')" style="cursor: pointer;" title="برای کپی کلیک کنید">
-                    <span>${totalLabel}</span>
-                    <span class="total-amount">${formatRial(totalAmount)} <small style="font-weight:500; opacity:0.9;">ریال</small></span>
+                <div class="total-payment ${isTaav ? 'taavoni' : ''}" onclick="copyNumber('${formatRial(isTaav ? res.finalVat : res.totalPayment)}')">
+                    <span>${isTaav ? 'جمع پرداختی (تعاونی)' : 'جمع کل پرداختی'}</span>
+                    <span class="total-amount">${formatRial(isTaav ? res.finalVat : res.totalPayment)} <small>ریال</small></span>
                 </div>
             </div>
         `;
     }
 
     document.documentElement.setAttribute('data-theme', 'light');
-    document.getElementById('themeIcon').textContent = 'dark_mode';
     fetchCurrencies();
 </script>
 </body>
