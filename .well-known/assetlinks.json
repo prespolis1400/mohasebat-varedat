@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "ir.prespolis1400.mohasebatvaredat",
+    "sha256_cert_fingerprints":
+    ["FINGERPRINT_SHA256_APP_SHOMA"]
+  }
+}]
