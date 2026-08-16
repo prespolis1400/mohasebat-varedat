@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" data-theme="light">
 <head>
+
+  <link rel="manifest" href="/mohasebat-varedat/manifest.json">
+<meta name="theme-color" content="#2563eb">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/mohasebat-varedat/sw.js');
+    });
+  }
+</script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>محاسبه‌گر جامع بهای تمام‌شده واردات</title>
