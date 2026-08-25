@@ -781,7 +781,7 @@ body.dark #calcTooltip {
      * هسته اصلی محاسبه
      * @param {'azad'|'taavoni'} mode
      */
-        function calculate(mode) {
+            function calculate(mode) {
       try {
         const weight   = parseNum('inpWeight');
         const amount   = parseNum('inpAmount');
@@ -812,11 +812,13 @@ body.dark #calcTooltip {
         const tax4 = Math.round((cifValue + tariff) * R.ALIOLHESAB_TAX);
 
         // ۶) عوارض ثابت
-        const standard = DOM.chkStandard.checked ? Math.round((cifValue * R.STANDARD_TAX)*1.1) : 0;
+        const standard = DOM.chkStandard.checked ? Math.round(cifValue * R.STANDARD_TAX) : 0;
         const foodDrug = DOM.chkFoodDrug.checked ? Math.round(cifValue * R.FOOD_DRUG_TAX) : 0;
 
         // ۷) ارزش افزوده
-        const vat = Math.round((cifValue + tariff) * R.VAT);
+        const vatRate = R.VAT || 0.10;
+        const normalVat = Math.round((cifValue + tariff) * vatRate);
+        let vat = normalVat;
 
         // پیدا کردن مبلغ هلال احمر بدون وابستگی به DOM.chkRedCrescent
         function isBox042CheckedByText(text) {
@@ -844,17 +846,12 @@ body.dark #calcTooltip {
 
         let redCrescentAmount = 0;
 
-        // اگر calcBox042 آیتم‌ها را برمی‌گرداند، از آنجا هلال احمر را پیدا کن
         if (Array.isArray(box042.items)) {
           const item = box042.items.find(i => String(i.title || '').includes('هلال احمر'));
           if (item) redCrescentAmount = item.amount || 0;
-        }
-        // اگر calcBox042 مقدار هلال احمر را جدا برمی‌گرداند
-        else if (typeof box042.redCrescent === 'number') {
+        } else if (typeof box042.redCrescent === 'number') {
           redCrescentAmount = box042.redCrescent;
-        }
-        // در غیر این صورت از روی چک‌باکس داخل صفحه پیدا کن
-        else if (isBox042CheckedByText('هلال احمر')) {
+        } else if (isBox042CheckedByText('هلال احمر')) {
           redCrescentAmount = Math.round(tariff * 0.01);
         }
 
@@ -865,13 +862,17 @@ body.dark #calcTooltip {
         let basePayment = 0;
 
         if (mode === 'taavoni') {
-          // جمع پرداختی پایه = ارزش افزوده + مجموع باکس 042 + حقوق ورودی
-          basePayment = vat + box042.total + tariff;
-
-          // باکس 049 در حالت اولیه: حقوق ورودی + هلال احمر
+          // حالت اولیه بدون تیک:
+          // باکس ۰۴۹ = حقوق ورودی + هلال احمر
           box049 = tariff + redCrescentAmount;
 
-          // جمع پرداختی نهایی = جمع پرداختی پایه - باکس 049
+          // ارزش افزوده در حالت عادی همان فرمول قبلی است
+          vat = normalVat;
+
+          // جمع پرداختی پایه = ارزش افزوده + مجموع باکس ۰۴۲ + حقوق ورودی
+          basePayment = vat + box042.total + tariff;
+
+          // جمع پرداختی نهایی = جمع پرداختی پایه - باکس ۰۴۹
           totalPayment = basePayment - box049;
 
           // بهای تمام‌شده هر کیلو
@@ -889,6 +890,7 @@ body.dark #calcTooltip {
           box042Total: box042.total,
           box042Html:  box042.html,
           vat,
+          vatNormal: normalVat,
           tax4,
           standard,
           foodDrug,
@@ -1002,11 +1004,12 @@ body.dark #calcTooltip {
     }
 
         /** بازمحاسبه با تخفیف ۵۰٪ حقوق ورودی (تعاونی) */
+        /** بازمحاسبه با تخفیف ۵۰٪ حقوق ورودی (تعاونی) */
     function recalcWithDiscount() {
       const container = DOM.resultContent;
       const res = JSON.parse(container.dataset.resultData || '{}');
 
-      if (!res.tariff || res.basePayment === undefined) return;
+      if (!res.tariff || typeof res.box042Total !== 'number' || !res.weight) return;
 
       const checkbox = document.getElementById('discountCheck');
       const isActive = checkbox ? checkbox.checked : false;
@@ -1014,22 +1017,52 @@ body.dark #calcTooltip {
       const redCrescentAmount = res.redCrescentAmount || 0;
       const halfTariff = Math.round(res.tariff / 2);
 
-      // بدون تیک: باکس 049 = حقوق ورودی + هلال احمر
-      // با تیک: باکس 049 = حقوق ورودی / 2 + هلال احمر
+      // باکس ۰۴۹:
+      // بدون تیک = حقوق ورودی + هلال احمر
+      // با تیک = حقوق ورودی / ۲ + هلال احمر
       const box049New = isActive
         ? halfTariff + redCrescentAmount
         : res.tariff + redCrescentAmount;
 
-      // جمع پرداختی نهایی = جمع پرداختی پایه - باکس 049
-      const finalPayment = res.basePayment - box049New;
+      // نرخ ارزش افزوده
+      const vatRate = (CONFIG && CONFIG.RATES && CONFIG.RATES.VAT)
+        ? CONFIG.RATES.VAT
+        : 0.10;
+
+      // ارزش افزوده عادی برای زمان غیرفعال بودن تیک
+      const normalVat = (typeof res.vatNormal === 'number') ? res.vatNormal : res.vat;
+
+      // اگر تیک فعال بود:
+      // ارزش افزوده = (حقوق ورودی + مجموع باکس ۰۴۲ - باکس ۰۴۹) × ۱۰٪
+      const vatCurrent = isActive
+        ? Math.round((res.cifValue + res.tariff - box049New) * vatRate)
+        : normalVat;
+
+      // جمع پرداختی پایه با ارزش افزوده جدید
+      const basePaymentNew = vatCurrent + res.box042Total + res.tariff;
+
+      // جمع پرداختی نهایی = جمع پرداختی پایه - باکس ۰۴۹
+      const finalPayment = basePaymentNew - box049New;
 
       // بهای تمام‌شده هر کیلو
       const costPerKg = Math.round(
         (finalPayment + res.tax4 + res.standard + res.foodDrug) / res.weight
       );
 
-      // به‌روزرسانی باکس 049
-      const box049El = container.querySelector('.box049-header')?.closest('.box042');
+      // به‌روزرسانی مبلغ ارزش افزوده در نتایج
+      container.querySelectorAll('.detail-item').forEach(item => {
+        const titleEl = item.querySelector('.detail-title');
+        if (titleEl && titleEl.textContent.includes('ارزش افزوده')) {
+          const valEl = item.querySelector('.detail-val');
+          if (valEl) valEl.textContent = fmt(vatCurrent);
+          item.dataset.copy = fmt(vatCurrent);
+        }
+      });
+
+      // به‌روزرسانی باکس ۰۴۹
+      const box049Header = container.querySelector('.box049-header');
+      const box049El = box049Header ? box049Header.closest('.box042') : null;
+
       if (box049El) {
         const headerSpan = box049El.querySelector('.box049-header span:last-child');
         if (headerSpan) {
@@ -1153,66 +1186,151 @@ body.dark #calcTooltip {
 
     document.addEventListener('DOMContentLoaded', init);
   /* ==========================================================
-   §H — TOOLTIP راهنمای نحوه محاسبه (افزودنی جدید - بدون تغییر کدهای قبلی)
+   §H — TOOLTIP راهنمای نحوه محاسبه
+   نسخه به‌روز: با تشخیص فعال/غیرفعال بودن تیک ۵۰٪
    ========================================================== */
 (function () {
-  const TIP_FORMULAS = {
-    'بهای تمام‌شده هر کیلوگرم خالص': '(جمع پرداختی + مالیات ۲٪ + عوارض استاندارد + غذا و دارو) ÷ وزن خالص',
-    'جمع پرداختی (تعاونی)': '(ارزش افزوده + مجموع باکس ۰۴۲ + حقوق ورودی) − باکس ۰۴۹',
-    'جمع کل پرداختی': 'حقوق ورودی + مجموع باکس ۰۴۲ + ارزش افزوده',
-    'باکس ۰۴۹': 'بدون تیک: حقوق ورودی + هلال احمر | با تیک ۵۰٪: (حقوق ورودی ÷ ۲) + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود',
-    'باکس ۰۴۲': 'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
-    'تجمیع عوارض باکس ۰۴۲': 'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
-    'بیمه حمل (دستی)': 'مبلغ بیمه را به‌صورت دستی وارد کرده‌اید',
-    'بیمه حمل (۰.۰۵٪)': 'ارزش کل × نرخ ارز × ۰.۰۰۵',
-    'ارزش کل ریالی (سیف)': '(ارزش کل × نرخ ارز) + بیمه حمل + ۱',
-    'حقوق ورودی': 'ارزش سیف × (درصد حقوق ورودی ÷ ۱۰۰)',
-    'ارزش افزوده (۱۰٪)': '(ارزش سیف + حقوق ورودی) × ۱۰٪',
-    'مالیات ۲٪ علی‌الحساب': '(ارزش سیف + حقوق ورودی) × ۲٪',
-    'عوارض استاندارد': 'ارزش سیف × ۰.۰۰ (۲ در هزار)',
-    'غذا و دارو': 'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
-    'هلال احمر': 'حقوق ورودی × ۱٪',
-    'نهاده دامی': 'ارزش سیف × ۱٪',
-    'عوارض ۱۲ در ۱۰۰۰': 'ارزش سیف × ۰.۰۱۲',
-    'پسماند': 'ارزش سیف × ۰.۰۰۰۵',
-    'گوشت قرمز': 'وزن خالص × ۲۷۵۰ ریال',
-    'گوشت مرغ': 'وزن خالص × ۱۱۰ ریال',
-    'خودرو بنزینی': 'ارزش سیف × ۱۰٪',
-    'خودرو سواری': 'ارزش سیف × ۵٪',
-    'کالای آسیب‌رسان': 'ارزش سیف × ۱۰٪',
-    'غلات/چوب': 'وزن خالص × ۲۰ ریال',
-    'چای': 'وزن خالص × ۳۰۰ ریال',
-    'پنبه/کنجاله': 'وزن خالص × ۵۰۰ ریال',
-    'میوه/سبزیجات': 'وزن خالص × ۷۰۰ ریال',
-    'سم آماده': 'وزن خالص × ۱۴۴۰ ریال'
-  };
+  const oldTip = document.getElementById('calcTooltip');
+  if (oldTip) oldTip.remove();
 
   const tip = document.createElement('div');
   tip.id = 'calcTooltip';
   document.body.appendChild(tip);
 
+  function isDiscountActive() {
+    const dc = document.getElementById('discountCheck');
+    return dc ? dc.checked : false;
+  }
+
+  const TIP_FORMULAS = {
+    'بهای تمام‌شده هر کیلوگرم خالص':
+      '(جمع پرداختی + مالیات ۲٪ + عوارض استاندارد + غذا و دارو) ÷ وزن خالص',
+
+    'جمع پرداختی (تعاونی)': () =>
+      isDiscountActive()
+        ? 'ارزش افزوده جدید + مجموع باکس ۰۴۲ + حقوق ورودی − باکس ۰۴۹'
+        : 'ارزش افزوده + مجموع باکس ۰۴۲ + حقوق ورودی − باکس ۰۴۹',
+
+    'جمع کل پرداختی':
+      'حقوق ورودی + مجموع باکس ۰۴۲ + ارزش افزوده',
+
+    'باکس ۰۴۹': () =>
+      isDiscountActive()
+        ? '(حقوق ورودی ÷ ۲) + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود'
+        : 'حقوق ورودی + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود',
+
+    'باکس ۰۴۲':
+      'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
+
+    'تجمیع عوارض باکس ۰۴۲':
+      'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
+
+    'بیمه حمل (دستی)':
+      'مبلغ بیمه را به‌صورت دستی وارد کرده‌اید',
+
+    'بیمه حمل (۰.۰۵٪)':
+      'ارزش کل × نرخ ارز × ۰.۰۰۰۵',
+
+    'ارزش کل ریالی (سیف)':
+      '(ارزش کل × نرخ ارز) + بیمه حمل + ۱',
+
+    'حقوق ورودی':
+      'ارزش سیف × (درصد حقوق ورودی ÷ ۱۰۰)',
+
+    'ارزش افزوده (۱۰٪)': () =>
+      isDiscountActive()
+        ? '(حقوق ورودی + ارزش سیف − باکس ۰۴۹) × ۱۰٪'
+        : '(ارزش سیف + حقوق ورودی) × ۱۰٪',
+
+    'مالیات ۲٪ علی‌الحساب':
+      '(ارزش سیف + حقوق ورودی) × ۲٪',
+
+    'عوارض استاندارد':
+      'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
+
+    'غذا و دارو':
+      'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
+
+    'هلال احمر':
+      'حقوق ورودی × ۱٪',
+
+    'نهاده دامی':
+      'ارزش سیف × ۱٪',
+
+    'عوارض ۱۲ در ۱۰۰۰':
+      'ارزش سیف × ۰.۰۱۲',
+
+    'پسماند':
+      'ارزش سیف × ۰.۰۰۰۵',
+
+    'گوشت قرمز':
+      'وزن خالص × ۲۷۵۰ ریال',
+
+    'گوشت مرغ':
+      'وزن خالص × ۱۱۰۰ ریال',
+
+    'خودرو بنزینی':
+      'ارزش سیف × ۱۰٪',
+
+    'خودرو سواری':
+      'ارزش سیف × ۵٪',
+
+    'کالای آسیب‌رسان':
+      'ارزش سیف × ۱۰٪',
+
+    'غلات/چوب':
+      'وزن خالص × ۲۰۰ ریال',
+
+    'چای':
+      'وزن خالص × ۳۰۰ ریال',
+
+    'پنبه/کنجاله':
+      'وزن خالص × ۵۰۰ ریال',
+
+    'میوه/سبزیجات':
+      'وزن خالص × ۷۰۰ ریال',
+
+    'سم آماده':
+      'وزن خالص × ۱۴۶۴۰ ریال'
+  };
+
+  function resolveFormula(value) {
+    return typeof value === 'function' ? value() : value;
+  }
+
   function findFormula(text) {
     if (!text) return null;
     text = text.trim();
-    if (TIP_FORMULAS[text]) return TIP_FORMULAS[text];
-    for (const key of Object.keys(TIP_FORMULAS)) {
-      if (text.includes(key)) return TIP_FORMULAS[key];
+
+    if (TIP_FORMULAS[text]) {
+      return resolveFormula(TIP_FORMULAS[text]);
     }
+
+    for (const key of Object.keys(TIP_FORMULAS)) {
+      if (text.includes(key)) {
+        return resolveFormula(TIP_FORMULAS[key]);
+      }
+    }
+
     return null;
   }
 
   function titleFrom(target) {
     // تیک تخفیف ۵۰٪
     const label = target.closest('label');
-    if (label && label.querySelector('#discountCheck')) return '@DISCOUNT@';
+    if (label && label.querySelector('#discountCheck')) {
+      return '@DISCOUNT@';
+    }
 
     const host = target.closest('.chip, .detail-item, .box042, .total-payment, .result-kpi');
     if (!host) return null;
 
     if (host.classList.contains('chip')) {
-      if (host.parentElement &&
-          host.parentElement.classList.contains('box049-chips') &&
-          host.textContent.includes('حقوق ورودی')) {
+      if (
+        host.parentElement &&
+        host.parentElement.classList.contains('box049-chips') &&
+        host.textContent.includes('حقوق ورودی')
+      ) {
         return '@BOX049_TARIFF@';
       }
       return host.textContent;
@@ -1223,7 +1341,9 @@ body.dark #calcTooltip {
       return t ? t.textContent : null;
     }
 
-    if (host.classList.contains('result-kpi')) return 'بهای تمام‌شده هر کیلوگرم خالص';
+    if (host.classList.contains('result-kpi')) {
+      return 'بهای تمام‌شده هر کیلوگرم خالص';
+    }
 
     if (host.classList.contains('total-payment')) {
       const s = host.querySelector('span');
@@ -1234,26 +1354,41 @@ body.dark #calcTooltip {
     return h ? h.textContent : null;
   }
 
-  function hideTip() { tip.style.display = 'none'; }
+  function hideTip() {
+    tip.style.display = 'none';
+  }
 
   document.addEventListener('mousemove', function (e) {
-    if (!e.target || !e.target.closest) { hideTip(); return; }
+    if (!e.target || !e.target.closest) {
+      hideTip();
+      return;
+    }
 
     const inside = e.target.closest('#resultContent');
-    if (!inside) { hideTip(); return; }
+    if (!inside) {
+      hideTip();
+      return;
+    }
 
     const raw = titleFrom(e.target);
     let text = null;
 
     if (raw === '@DISCOUNT@') {
-      text = 'با فعال‌کردن این تیک، در فرمول باکس ۰۴۹ به‌جای کل حقوق ورودی، نصف حقوق ورودی محاسبه می‌شود';
+      text = isDiscountActive()
+        ? 'تیک فعال است: در باکس ۰۴۹ به‌جای کل حقوق ورودی، نصف حقوق ورودی محاسبه می‌شود و فرمول ارزش افزوده هم تغییر می‌کند'
+        : 'با فعال‌کردن این تیک، در باکس ۰۴۹ نصف حقوق ورودی محاسبه می‌شود و فرمول ارزش افزوده تغییر می‌کند';
     } else if (raw === '@BOX049_TARIFF@') {
-      text = 'سهم حقوق ورودی در باکس ۰۴۹ | بدون تیک: کل حقوق ورودی | با تیک: حقوق ورودی ÷ ۲';
+      text = isDiscountActive()
+        ? 'سهم حقوق ورودی در باکس ۰۴۹ | با تیک فعال: حقوق ورودی ÷ ۲'
+        : 'سهم حقوق ورودی در باکس ۰۴۹ | بدون تیک: کل حقوق ورودی';
     } else {
       text = findFormula(raw);
     }
 
-    if (!text) { hideTip(); return; }
+    if (!text) {
+      hideTip();
+      return;
+    }
 
     tip.textContent = '💡 ' + text;
     tip.style.display = 'block';
@@ -1261,9 +1396,17 @@ body.dark #calcTooltip {
     const pad = 14;
     let x = e.clientX + pad;
     let y = e.clientY + pad;
+
     const r = tip.getBoundingClientRect();
-    if (x + r.width > window.innerWidth - 6)  x = e.clientX - r.width - pad;
-    if (y + r.height > window.innerHeight - 6) y = e.clientY - r.height - pad;
+
+    if (x + r.width > window.innerWidth - 6) {
+      x = e.clientX - r.width - pad;
+    }
+
+    if (y + r.height > window.innerHeight - 6) {
+      y = e.clientY - r.height - pad;
+    }
+
     tip.style.left = x + 'px';
     tip.style.top  = y + 'px';
   });
