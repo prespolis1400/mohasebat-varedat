@@ -267,7 +267,7 @@
     }
 
     /* ============================================================
-       §9 — ACTION BUTTONS (دو ستونه و ریسپانسیو)
+       §9 — ACTION BUTTONS
        ============================================================ */
     .btn-group { 
       grid-column: 1 / -1; 
@@ -293,7 +293,7 @@
     .calc-btn--taavoni:hover { background: var(--success-hover); }
 
     /* ============================================================
-       §10 — RESULTS (نتایج محاسبات ۳ ستونه با فونت متغیر)
+       §10 — RESULTS
        ============================================================ */
     .result-card {
       background: var(--bg-surface); border-radius: var(--radius-lg);
@@ -312,7 +312,6 @@
     .kpi-title { font-size: .9rem; font-weight: 700; opacity: .9; }
     .kpi-val   { font-size: 2.4rem; font-weight: 900; margin-top: 8px; letter-spacing: -.5px; cursor: pointer; }
 
-    /* ساختار گرید ۳ ستونه برای کارت‌های جزئیات */
     .details-grid { 
       display: grid; 
       grid-template-columns: repeat(3, 1fr); 
@@ -351,7 +350,7 @@
     }
 
     /* ============================================================
-       §11 — BOX 042 & BOX 049 (قرارگیری در کنار هم به‌صورت جفت)
+       §11 — BOX 042 & BOX 049
        ============================================================ */
     .boxes-row {
       grid-column: 1 / -1;
@@ -749,9 +748,11 @@
        §A — CONSTANTS & CONFIGURATION
        ========================================================== */
     const CONFIG = Object.freeze({
-      API_URL:        'https://gomrokyar.heidar.workers.dev/',
-      API_TIMEOUT:    8000,
-      TOAST_DURATION: 4000,
+      // لینک‌های منابع دریافت نرخ ارز
+      PRIMARY_API_URL:   'https://gomrokyar.heidar.workers.dev/',
+      SECONDARY_API_URL: 'https://prespolis1400.github.io/GomrokYar/rates.json',
+      API_TIMEOUT:       6000,
+      TOAST_DURATION:    4000,
 
       RATES: {
         INSURANCE_DEFAULT:  0.0005,   
@@ -834,7 +835,7 @@
     }
 
     /* ==========================================================
-       §D — API LAYER
+       §D — API LAYER (دریافت زنجیره‌ای از منبع ۱، منبع ۲ یا آفلاین)
        ========================================================== */
     async function fetchWithTimeout(url, timeout = CONFIG.API_TIMEOUT) {
       const ctrl = new AbortController();
@@ -846,28 +847,51 @@
       }
     }
 
+    async function fetchCurrencySource(url) {
+      const res = await fetchWithTimeout(url);
+      if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+      const json = await res.json();
+
+      // پشتیبانی از فرمت { success: true, data: [...] } یا آرایه مستقیم [...]
+      if (json && json.success && Array.isArray(json.data) && json.data.length) {
+        return json.data;
+      }
+      if (Array.isArray(json) && json.length) {
+        return json;
+      }
+      throw new Error('داده نامعتبر است');
+    }
+
     async function loadCurrencies() {
       const sel = DOM.inpCurrency;
       DOM.loadingOverlay.classList.remove('hidden');
       sel.innerHTML = '<option value="">بارگذاری...</option>';
 
       let success = false;
+      currencyData = [];
+
+      // تلاش برای دریافت از منبع اول
       try {
-        const res = await fetchWithTimeout(CONFIG.API_URL);
-        const json = await res.json();
-        if (json.success && Array.isArray(json.data) && json.data.length) {
-          currencyData = json.data;
+        currencyData = await fetchCurrencySource(CONFIG.PRIMARY_API_URL);
+        success = true;
+      } catch (err1) {
+        console.warn('منبع اول با خطا مواجه شد، در حال تلاش برای منبع دوم...', err1);
+        
+        // در صورت عدم دریافت از منبع اول، تلاش برای منبع دوم
+        try {
+          currencyData = await fetchCurrencySource(CONFIG.SECONDARY_API_URL);
           success = true;
+        } catch (err2) {
+          console.warn('منبع دوم نیز با خطا مواجه شد. استفاده از لیست پیش‌فرض.', err2);
+          showToast('خطا در اتصال به سرورها! نرخ‌های پیش‌فرض بارگذاری شدند.', 'error', 5000);
         }
-      } catch {
-        showToast('خطا در اتصال به سرور! نرخ‌های پیش‌فرض بارگذاری شدند.', 'error', 5000);
       }
 
       sel.innerHTML = '<option value="">-- انتخاب ارز --</option>';
       const list = success
         ? currencyData.map(c => ({
             label: `${c.currency} : ${Number(String(c.rate).replace(/,/g, '').replace(/[^0-9.]/g, '')).toLocaleString('en-US')} ریال`,
-            rate:  String(c.rate),
+            rate:  String(c.rate).replace(/,/g, '').replace(/[^0-9.]/g, ''),
           }))
         : CONFIG.FALLBACK_CURRENCIES.map(c => ({
             label: `${c.currency} : ${c.rate.toLocaleString('en-US')} ریال`,
