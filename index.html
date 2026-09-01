@@ -205,7 +205,7 @@
       grid-template-columns: repeat(2, 1fr); 
       gap: 16px; 
     }
-    .input-group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .input-group { display: flex; flex-direction: column; gap: 8px; min-width: 0; position: relative; }
     .input-group--full { grid-column: 1 / -1; }
 
     .main-label { 
@@ -218,17 +218,127 @@
     }
     .main-label--accent { color: var(--primary); }
 
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"] {
       background: var(--bg-base); border: 1.5px solid var(--border); color: var(--text-main);
       padding: 14px 16px; border-radius: var(--radius-md); font-size: 1rem;
       outline: none; transition: var(--transition); appearance: none; width: 100%;
     }
-    select {
-      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a0a0ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: left 12px center;
-      background-size: 16px; padding-left: 36px;
+    input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+
+    /* ============================================================
+       §7.1 — CUSTOM SEARCHABLE DROPDOWN
+       ============================================================ */
+    .custom-select-wrapper {
+      position: relative;
+      width: 100%;
     }
-    input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+    .custom-select-trigger {
+      background: var(--bg-base);
+      border: 1.5px solid var(--border);
+      color: var(--text-main);
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .custom-select-trigger:focus, .custom-select-wrapper.open .custom-select-trigger {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+    .custom-select-trigger span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .custom-select-trigger .material-icons-round {
+      transition: transform .3s ease;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+    .custom-select-wrapper.open .custom-select-trigger .material-icons-round {
+      transform: rotate(180deg);
+    }
+
+    .custom-select-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      animation: fadeInDropdown .2s ease;
+    }
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-select-wrapper.open .custom-select-dropdown {
+      display: flex;
+    }
+
+    .custom-select-search-box {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface-variant);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .custom-select-search-box input {
+      padding: 8px 10px;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      width: 100%;
+      outline: none;
+    }
+    .custom-select-search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .custom-select-options {
+      max-height: 220px;
+      overflow-y: auto;
+      list-style: none;
+    }
+    .custom-select-option {
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: background .15s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .custom-select-option:hover, .custom-select-option.selected {
+      background: var(--bg-surface-variant);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .custom-select-option.hidden {
+      display: none;
+    }
+    .custom-select-no-result {
+      padding: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      display: none;
+    }
 
     /* ============================================================
        §8 — CHECKBOX SECTIONS
@@ -501,13 +611,9 @@
     @media (max-width: 640px) {
       .input-grid { gap: 10px; }
       .main-label { font-size: 0.74rem; }
-      input[type="text"], input[type="number"], select {
+      input[type="text"], input[type="number"], .custom-select-trigger {
         padding: 10px 10px;
         font-size: 0.88rem;
-      }
-      select {
-        padding-left: 26px;
-        background-position: left 6px center;
       }
 
       .checkbox-grid--3cols {
@@ -643,10 +749,23 @@
           <input type="text" id="inpAmount" inputmode="numeric" placeholder="مثال: 50,000" autocomplete="off">
         </div>
 
-        <!-- ارز و نرخ -->
+        <!-- لیست ارزها بصورت کشویی با قابلیت جستجو -->
         <div class="input-group">
-          <label class="main-label" for="inpCurrency">انتخاب ارز گمرکی</label>
-          <select id="inpCurrency"><option value="">بارگذاری...</option></select>
+          <label class="main-label" id="currencyLabel">انتخاب ارز گمرکی</label>
+          <input type="hidden" id="inpCurrency" value="">
+          <div class="custom-select-wrapper" id="currencySelectWrapper">
+            <div class="custom-select-trigger" id="currencyTrigger" tabindex="0">
+              <span id="currencyTriggerText">بارگذاری نرخ‌ها...</span>
+              <span class="material-icons-round">expand_more</span>
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-search-box">
+                <input type="text" id="currencySearchInput" placeholder="جستجوی ارز یا کد..." autocomplete="off">
+              </div>
+              <ul class="custom-select-options" id="currencyOptionsList"></ul>
+              <div class="custom-select-no-result" id="currencyNoResult">موردی یافت نشد</div>
+            </div>
+          </div>
         </div>
 
         <div class="input-group">
@@ -748,7 +867,6 @@
        §A — CONSTANTS & CONFIGURATION
        ========================================================== */
     const CONFIG = Object.freeze({
-      // لینک‌های منابع دریافت نرخ ارز
       PRIMARY_API_URL:   'https://gomrokyar.heidar.workers.dev/',
       SECONDARY_API_URL: 'https://prespolis1400.github.io/GomrokYar/rates.json',
       API_TIMEOUT:       6000,
@@ -785,6 +903,8 @@
         'toast', 'themeIcon', 'box042Container',
         'btnReset', 'btnAbout', 'btnTheme', 'btnCalcAzad',
         'btnCalcTaavoni', 'btnCloseModal',
+        'currencySelectWrapper', 'currencyTrigger', 'currencyTriggerText',
+        'currencySearchInput', 'currencyOptionsList', 'currencyNoResult'
       ];
       ids.forEach(id => { DOM[id] = document.getElementById(id); });
     }
@@ -835,7 +955,7 @@
     }
 
     /* ==========================================================
-       §D — API LAYER (دریافت زنجیره‌ای از منبع ۱، منبع ۲ یا آفلاین)
+       §D — API LAYER & SEARCHABLE DROPDOWN
        ========================================================== */
     async function fetchWithTimeout(url, timeout = CONFIG.API_TIMEOUT) {
       const ctrl = new AbortController();
@@ -852,7 +972,6 @@
       if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
       const json = await res.json();
 
-      // پشتیبانی از فرمت { success: true, data: [...] } یا آرایه مستقیم [...]
       if (json && json.success && Array.isArray(json.data) && json.data.length) {
         return json.data;
       }
@@ -862,50 +981,99 @@
       throw new Error('داده نامعتبر است');
     }
 
+    let currencyData = [];
+    let formattedCurrencies = [];
+
+    function populateCurrencyOptions(list) {
+      formattedCurrencies = list;
+      const listEl = DOM.currencyOptionsList;
+      listEl.innerHTML = '';
+
+      list.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'custom-select-option';
+        li.dataset.rate = item.rate;
+        li.dataset.label = item.label;
+        li.dataset.search = (item.currency + ' ' + item.rate).toLowerCase();
+        li.innerHTML = `<span>${item.currency}</span><span style="font-family:monospace;opacity:.8">${Number(item.rate).toLocaleString('en-US')}</span>`;
+
+        li.addEventListener('click', () => {
+          selectCurrencyOption(item.rate, item.label);
+        });
+
+        listEl.appendChild(li);
+      });
+
+      DOM.currencyTriggerText.textContent = '-- انتخاب ارز مورد نظر --';
+    }
+
+    function selectCurrencyOption(rate, label) {
+      DOM.inpCurrency.value = rate;
+      DOM.currencyTriggerText.textContent = label;
+      DOM.inpRate.value = rate ? Number(rate).toLocaleString('en-US') : '';
+      DOM.resultCard.classList.remove('visible');
+      
+      // بستن منو
+      DOM.currencySelectWrapper.classList.remove('open');
+      DOM.currencySearchInput.value = '';
+      filterCurrencies('');
+
+      // هایلایت کردن گزینه انتخابی
+      DOM.currencyOptionsList.querySelectorAll('.custom-select-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.rate === String(rate));
+      });
+    }
+
+    function filterCurrencies(query) {
+      const q = query.trim().toLowerCase();
+      let visibleCount = 0;
+      const options = DOM.currencyOptionsList.querySelectorAll('.custom-select-option');
+
+      options.forEach(opt => {
+        const match = opt.dataset.search.includes(q);
+        opt.classList.toggle('hidden', !match);
+        if (match) visibleCount++;
+      });
+
+      DOM.currencyNoResult.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
     async function loadCurrencies() {
-      const sel = DOM.inpCurrency;
       DOM.loadingOverlay.classList.remove('hidden');
-      sel.innerHTML = '<option value="">بارگذاری...</option>';
+      DOM.currencyTriggerText.textContent = 'بارگذاری نرخ‌ها...';
 
       let success = false;
       currencyData = [];
 
-      // تلاش برای دریافت از منبع اول
       try {
         currencyData = await fetchCurrencySource(CONFIG.PRIMARY_API_URL);
         success = true;
       } catch (err1) {
-        console.warn('منبع اول با خطا مواجه شد، در حال تلاش برای منبع دوم...', err1);
-        
-        // در صورت عدم دریافت از منبع اول، تلاش برای منبع دوم
+        console.warn('منبع اول ناموفق بود، تلاش برای منبع دوم...', err1);
         try {
           currencyData = await fetchCurrencySource(CONFIG.SECONDARY_API_URL);
           success = true;
         } catch (err2) {
-          console.warn('منبع دوم نیز با خطا مواجه شد. استفاده از لیست پیش‌فرض.', err2);
+          console.warn('منبع دوم نیز ناموفق بود. بارگذاری داده‌های پیش‌فرض...', err2);
           showToast('خطا در اتصال به سرورها! نرخ‌های پیش‌فرض بارگذاری شدند.', 'error', 5000);
         }
       }
 
-      sel.innerHTML = '<option value="">-- انتخاب ارز --</option>';
       const list = success
         ? currencyData.map(c => ({
+            currency: c.currency,
             label: `${c.currency} : ${Number(String(c.rate).replace(/,/g, '').replace(/[^0-9.]/g, '')).toLocaleString('en-US')} ریال`,
             rate:  String(c.rate).replace(/,/g, '').replace(/[^0-9.]/g, ''),
           }))
         : CONFIG.FALLBACK_CURRENCIES.map(c => ({
+            currency: c.currency,
             label: `${c.currency} : ${c.rate.toLocaleString('en-US')} ریال`,
             rate:  String(c.rate),
           }));
 
-      list.forEach(item => {
-        sel.insertAdjacentHTML('beforeend', `<option value="${item.rate}">${item.label}</option>`);
-      });
-
+      populateCurrencyOptions(list);
       DOM.loadingOverlay.classList.add('hidden');
     }
-
-    let currencyData = [];
 
     /* ==========================================================
        §E — CALCULATION ENGINE
@@ -1057,9 +1225,7 @@
           <div class="detail-item" style="opacity:0;pointer-events:none;"></div>
           <div class="detail-item" style="opacity:0;pointer-events:none;"></div>
 
-          <!-- قرارگیری باکس ۰۴۲ و باکس ۰۴۹ در کنار هم -->
           <div class="boxes-row ${!isTaav ? 'boxes-row--single' : ''}">
-            <!-- باکس ۰۴۲ -->
             <div class="box042">
               <div class="box042-header">
                 <span>تجمیع عوارض باکس ۰۴۲</span>
@@ -1068,7 +1234,6 @@
               <div class="box042-chips">${res.box042Html}</div>
             </div>
 
-            <!-- باکس ۰۴۹ (در حالت تعاونی) -->
             ${isTaav ? `
               <div class="box042 box042--taavoni">
                 <div class="box042-header box049-header">
@@ -1226,6 +1391,7 @@
       ['inpWeight', 'inpAmount', 'inpCurrency', 'inpRate', 'inpManualInsurance'].forEach(id => {
         if (DOM[id]) DOM[id].value = '';
       });
+      DOM.currencyTriggerText.textContent = '-- انتخاب ارز مورد نظر --';
       DOM.inpTariff.value = '5';
       DOM.chkStandard.checked = true;
       DOM.chkFoodDrug.checked = true;
@@ -1274,9 +1440,23 @@
         DOM[id].addEventListener('input', liveFormatInput);
       });
 
-      DOM.inpCurrency.addEventListener('change', e => {
-        DOM.inpRate.value = e.target.value ? Number(e.target.value).toLocaleString('en-US') : '';
-        DOM.resultCard.classList.remove('visible');
+      // رخدادهای منوی کشویی جستجودار
+      DOM.currencyTrigger.addEventListener('click', () => {
+        const isOpen = DOM.currencySelectWrapper.classList.toggle('open');
+        if (isOpen) {
+          DOM.currencySearchInput.focus();
+        }
+      });
+
+      DOM.currencySearchInput.addEventListener('input', (e) => {
+        filterCurrencies(e.target.value);
+      });
+
+      // بستن منو با کلیک در بیرون
+      document.addEventListener('click', (e) => {
+        if (!DOM.currencySelectWrapper.contains(e.target)) {
+          DOM.currencySelectWrapper.classList.remove('open');
+        }
       });
 
       document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
