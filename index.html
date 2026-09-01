@@ -81,7 +81,7 @@
     }
 
     /* ============================================================
-       §3 — LOADING OVERLAY  (3-D Neon HUD)
+       §3 — LOADING OVERLAY
        ============================================================ */
     .loading-overlay {
       position: fixed; inset: 0;
@@ -198,7 +198,7 @@
     }
 
     /* ============================================================
-       §7 — FORM ELEMENTS (ساختار دو ستونه ثابت فرم ورودی)
+       §7 — FORM ELEMENTS
        ============================================================ */
     .input-grid { 
       display: grid; 
@@ -267,7 +267,7 @@
     }
 
     /* ============================================================
-       §9 — ACTION BUTTONS (دو ستونه کنار هم حتی در موبایل)
+       §9 — ACTION BUTTONS (دو ستونه و ریسپانسیو)
        ============================================================ */
     .btn-group { 
       grid-column: 1 / -1; 
@@ -293,7 +293,7 @@
     .calc-btn--taavoni:hover { background: var(--success-hover); }
 
     /* ============================================================
-       §10 — RESULTS (۳ ستونه شدن نتایج محاسبات)
+       §10 — RESULTS (نتایج محاسبات ۳ ستونه با فونت متغیر)
        ============================================================ */
     .result-card {
       background: var(--bg-surface); border-radius: var(--radius-lg);
@@ -312,59 +312,114 @@
     .kpi-title { font-size: .9rem; font-weight: 700; opacity: .9; }
     .kpi-val   { font-size: 2.4rem; font-weight: 900; margin-top: 8px; letter-spacing: -.5px; cursor: pointer; }
 
-    /* ۳ ستونه ثابت برای نتایج */
+    /* ساختار گرید ۳ ستونه برای کارت‌های جزئیات */
     .details-grid { 
       display: grid; 
       grid-template-columns: repeat(3, 1fr); 
-      gap: 12px; 
+      gap: 10px; 
     }
 
     .detail-item {
-      background: var(--bg-surface-variant); padding: 12px 14px;
-      border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 6px;
-      border: 1px solid var(--border); transition: var(--transition); cursor: pointer;
+      background: var(--bg-surface-variant); 
+      padding: 10px 6px;
+      border-radius: var(--radius-md); 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      border: 1px solid var(--border); 
+      transition: var(--transition); 
+      cursor: pointer;
       min-width: 0;
     }
     .detail-item:hover { border-color: var(--primary); transform: translateY(-2px); }
     .detail-title { 
-      font-size: .8rem; 
+      font-size: clamp(0.65rem, 2vw, 0.8rem); 
       color: var(--text-muted); 
       font-weight: 600; 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
+      line-height: 1.2;
     }
-    .detail-val   { 
-      font-size: 1.05rem; 
+    .detail-val { 
+      font-size: clamp(0.72rem, 2.5vw, 0.98rem); 
       font-weight: 800; 
       font-family: monospace; 
       color: var(--text-main); 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
+      word-break: break-all;
+      line-height: 1.2;
     }
 
     /* ============================================================
-       §11 — BOX 042
+       §11 — BOX 042 & BOX 049 (قرارگیری در کنار هم به‌صورت جفت)
        ============================================================ */
+    .boxes-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .boxes-row--single {
+      grid-template-columns: 1fr;
+    }
+
     .box042 {
-      grid-column: 1 / -1; background: var(--box042-bg);
-      border: 1px dashed var(--primary-variant); padding: 16px; border-radius: var(--radius-md);
+      background: var(--box042-bg);
+      border: 1.5px dashed var(--primary-variant); 
+      padding: 12px; 
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    .box042--taavoni {
+      border: 1.5px solid #ea580c; 
+      background: rgba(234,88,12,.08);
     }
     .box042-header {
-      display: flex; justify-content: space-between; color: var(--primary);
-      font-weight: 800; margin-bottom: 10px; font-size: .95rem;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      color: var(--primary);
+      font-weight: 800; 
+      font-size: clamp(0.72rem, 2.2vw, 0.88rem);
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 6px;
     }
-    .box042-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .box042-chip {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      padding: 6px 12px; border-radius: var(--radius-pill); font-size: .8rem;
-      font-weight: 600; color: var(--text-main);
-      display: flex; align-items: center; gap: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,.02); cursor: pointer; transition: var(--transition);
+    .box042--taavoni .box042-header {
+      color: #ea580c;
     }
-    .box042-chip:hover { border-color: var(--primary); }
-    .box042-chip-val { color: var(--primary); font-family: monospace; font-size: .9rem; font-weight: 800; }
+    .box042-chips { 
+      display: flex; 
+      flex-direction: column;
+      gap: 6px; 
+    }
+    .box042-chip, .chip {
+      background: var(--bg-surface); 
+      border: 1px solid var(--border);
+      padding: 5px 8px; 
+      border-radius: var(--radius-md); 
+      font-size: clamp(0.68rem, 2vw, 0.8rem);
+      font-weight: 600; 
+      color: var(--text-main);
+      display: flex; 
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,.02); 
+      cursor: pointer; 
+      transition: var(--transition);
+      min-width: 0;
+    }
+    .box042-chip:hover, .chip:hover { border-color: var(--primary); }
+    .box042-chip-val { 
+      color: var(--primary); 
+      font-family: monospace; 
+      font-size: clamp(0.72rem, 2.2vw, 0.88rem); 
+      font-weight: 800; 
+      word-break: break-all;
+    }
 
     /* ============================================================
        §12 — TOTAL PAYMENT BAR
@@ -379,17 +434,14 @@
     .total-payment.taavoni { background: var(--success); }
 
     /* ============================================================
-       §13 — DISCOUNT CHECKBOX (Taavoni)
+       §13 — DISCOUNT CHECKBOX
        ============================================================ */
-    .discount-checkbox-container {
-      grid-column: 1 / -1; background: var(--bg-surface-variant);
-      padding: 16px; border-radius: var(--radius-md);
-      border: 2px solid var(--success); margin-top: 8px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .discount-checkbox-container label {
-      font-weight: 700; color: var(--success); cursor: pointer;
-      display: flex; align-items: center; gap: 8px;
+    .discount-box-wrapper {
+      grid-column: 1 / -1; 
+      border: 1px dashed #7c3aed; 
+      background: rgba(124,58,237,.10); 
+      border-radius: 12px; 
+      padding: 12px;
     }
 
     /* ============================================================
@@ -445,7 +497,7 @@
     }
 
     /* ============================================================
-       §17 — RESPONSIVE (موبایل و تبلت)
+       §17 — RESPONSIVE
        ============================================================ */
     @media (max-width: 640px) {
       .input-grid { gap: 10px; }
@@ -459,7 +511,6 @@
         background-position: left 6px center;
       }
 
-      /* حفظ ۳ ستونه باکس ۰۴۲ در موبایل */
       .checkbox-grid--3cols {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px 4px;
@@ -473,22 +524,10 @@
         height: 15px;
       }
 
-      /* حفظ ۳ ستونه نتایج در موبایل */
       .details-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
       }
-      .detail-item {
-        padding: 8px 6px;
-      }
-      .detail-title {
-        font-size: 0.68rem;
-      }
-      .detail-val {
-        font-size: 0.82rem;
-      }
-
-      /* حفظ دکمه‌ها در یک سطر در موبایل */
       .btn-group {
         gap: 8px;
       }
@@ -503,12 +542,15 @@
     }
 
     @media (max-width: 480px) {
-      body { padding: 12px 8px; }
-      .card { padding: 16px 10px; }
+      body { padding: 12px 6px; }
+      .card { padding: 14px 8px; }
+      .result-card { padding: 14px 8px; }
       .app-header { padding: 0 4px; flex-direction: column; align-items: flex-start; gap: 12px; }
       .theme-toggle { position: absolute; left: 14px; top: 16px; }
-      .kpi-val { font-size: 1.7rem; }
-      .total-payment { flex-direction: column; gap: 8px; text-align: center; font-size: 1rem; }
+      .kpi-val { font-size: 1.6rem; }
+      .total-payment { flex-direction: column; gap: 8px; text-align: center; font-size: 0.95rem; padding: 12px 14px; }
+      .boxes-row { gap: 6px; }
+      .box042 { padding: 8px 6px; }
     }
 
     /* ===== پاپ‌آپ راهنمای محاسبه ===== */
@@ -591,7 +633,7 @@
       </div>
 
       <div class="input-grid">
-        <!-- ۱. وزن خالص و ارزش کل در کنار هم -->
+        <!-- وزن و ارزش -->
         <div class="input-group">
           <label class="main-label" for="inpWeight">وزن خالص (کیلوگرم)</label>
           <input type="text" id="inpWeight" inputmode="numeric" placeholder="مثال: 1,500" autocomplete="off">
@@ -602,7 +644,7 @@
           <input type="text" id="inpAmount" inputmode="numeric" placeholder="مثال: 50,000" autocomplete="off">
         </div>
 
-        <!-- ۲. نوع ارز و نرخ ارز در کنار هم -->
+        <!-- ارز و نرخ -->
         <div class="input-group">
           <label class="main-label" for="inpCurrency">انتخاب ارز گمرکی</label>
           <select id="inpCurrency"><option value="">بارگذاری...</option></select>
@@ -613,7 +655,7 @@
           <input type="text" id="inpRate" inputmode="numeric" placeholder="خودکار درج می‌شود" autocomplete="off">
         </div>
 
-        <!-- ۳. درصد حقوق ورودی و مبلغ بیمه در کنار هم -->
+        <!-- تعرفه و بیمه دستی -->
         <div class="input-group">
           <label class="main-label" for="inpTariff">حقوق ورودی (٪)</label>
           <input type="number" id="inpTariff" value="5" step="1" style="direction:ltr">
@@ -636,7 +678,7 @@
           </div>
         </div>
 
-        <!-- ۴. تجمیع باکس ۰۴۲ بصورت ۳ ستونه -->
+        <!-- چک‌باکس‌های باکس ۰۴۲ (۳ ستونه) -->
         <div class="checkbox-container">
           <div class="checkbox-container-title">
             <span class="material-icons-round" style="font-size:1.1rem" aria-hidden="true">account_balance_wallet</span>
@@ -660,7 +702,7 @@
           </div>
         </div>
 
-        <!-- دکمه‌های محاسبه (دو ستونه و کنار هم در همه صفحات) -->
+        <!-- دکمه‌های محاسبه -->
         <div class="btn-group">
           <button class="calc-btn calc-btn--azad" id="btnCalcAzad">
             <span class="material-icons-round" aria-hidden="true">calculate</span>
@@ -863,12 +905,12 @@
 
         total += cost;
         html += `<div class="box042-chip" data-copy="${fmt(cost)}">
-                   <span style="color:var(--text-muted)">${name}:</span>
+                   <span>${name}:</span>
                    <span class="box042-chip-val">${fmt(cost)}</span>
                  </div>`;
       });
 
-      if (!html) html = '<div style="opacity:.6;font-size:.85rem">موردی انتخاب نشده است</div>';
+      if (!html) html = '<div style="opacity:.6;font-size:.8rem;text-align:center;">موردی انتخاب نشده</div>';
       return { total, html };
     }
 
@@ -982,38 +1024,52 @@
 
         <div class="details-grid">
           ${detailItem(res.manualIns > 0 ? 'بیمه حمل (دستی)' : 'بیمه حمل (۰.۰۵٪)', res.insurance)}
-          ${detailItem('ارزش کل ریالی (سیف)', res.cifValue)}
+          ${detailItem('ارزش کل (سیف)', res.cifValue)}
           ${detailItem('حقوق ورودی', res.tariff)}
           ${detailItem('ارزش افزوده (۱۰٪)', res.vat)}
-
           ${detailItem('مالیات ۲٪ علی‌الحساب', res.tax4)}
           ${detailItem('عوارض استاندارد', res.standard)}
           ${detailItem('غذا و دارو', res.foodDrug)}
+          <div class="detail-item" style="opacity:0;pointer-events:none;"></div>
+          <div class="detail-item" style="opacity:0;pointer-events:none;"></div>
 
-          <div class="box042">
-            <div class="box042-header">
-              <span>تجمیع عوارض باکس ۰۴۲</span>
-              <span data-copy="${fmt(res.box042Total)}" style="cursor:pointer">${fmt(res.box042Total)} ریال</span>
+          <!-- قرارگیری باکس ۰۴۲ و باکس ۰۴۹ در کنار هم -->
+          <div class="boxes-row ${!isTaav ? 'boxes-row--single' : ''}">
+            <!-- باکس ۰۴۲ -->
+            <div class="box042">
+              <div class="box042-header">
+                <span>تجمیع عوارض باکس ۰۴۲</span>
+                <span data-copy="${fmt(res.box042Total)}" style="cursor:pointer">${fmt(res.box042Total)}</span>
+              </div>
+              <div class="box042-chips">${res.box042Html}</div>
             </div>
-            <div class="box042-chips">${res.box042Html}</div>
+
+            <!-- باکس ۰۴۹ (در حالت تعاونی) -->
+            ${isTaav ? `
+              <div class="box042 box042--taavoni">
+                <div class="box042-header box049-header">
+                  <span>🎯 باکس ۰۴۹ (تخفیف)</span>
+                  <span data-copy="${fmt(res.box049)}" style="cursor:pointer">- ${fmt(res.box049)}</span>
+                </div>
+                <div class="box042-chips box049-chips">
+                  <div class="chip" data-copy="${fmt(res.tariff)}">
+                    <span>حقوق ورودی:</span>
+                    <span class="box042-chip-val" style="color:#ea580c">${fmt(res.tariff)}</span>
+                  </div>
+                  <div class="chip" data-copy="${fmt(res.redCrescentAmount || 0)}">
+                    <span>هلال احمر:</span>
+                    <span class="box042-chip-val" style="color:#ea580c">${fmt(res.redCrescentAmount || 0)}</span>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
           </div>
 
           ${isTaav ? `
-            <div class="box042" style="border:2px solid #ea580c; background:rgba(234,88,12,.08)">
-              <div class="box042-header box049-header">
-                <span>🎯 باکس ۰۴۹ (تخفیف حقوق ورودی و عوارض)</span>
-                <span data-copy="${fmt(res.box049)}" style="cursor:pointer">- ${fmt(res.box049)} ریال</span>
-              </div>
-              <div class="box042-chips box049-chips">
-                <span class="chip">حقوق ورودی: ${fmt(res.tariff)}</span>
-                <span class="chip">هلال احمر: ${fmt(res.redCrescentAmount || 0)}</span>
-              </div>
-            </div>
-
-            <div style="grid-column:1/-1; border:1px dashed #7c3aed; background:rgba(124,58,237,.10); border-radius:12px; padding:12px;">
+            <div class="discount-box-wrapper">
               <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
                 <input type="checkbox" id="discountCheck">
-                <span>🎯 اعمال تخفیف ۵۰٪ حقوق ورودی (در باکس ۰۴۹)</span>
+                <span style="font-size:0.85rem;font-weight:700;">🎯 اعمال تخفیف ۵۰٪ حقوق ورودی (در باکس ۰۴۹)</span>
               </label>
             </div>
           ` : ''}
@@ -1103,15 +1159,21 @@
       if (box049El) {
         const headerSpan = box049El.querySelector('.box049-header span:last-child');
         if (headerSpan) {
-          headerSpan.textContent = `- ${fmt(box049New)} ریال`;
+          headerSpan.textContent = `- ${fmt(box049New)}`;
           headerSpan.dataset.copy = fmt(box049New);
         }
 
         const chips = box049El.querySelector('.box049-chips');
         if (chips) {
           chips.innerHTML = `
-            <span class="chip">حقوق ورودی${isActive ? ' / ۲' : ''}: ${fmt(isActive ? halfTariff : res.tariff)}</span>
-            <span class="chip">هلال احمر: ${fmt(redCrescentAmount)}</span>
+            <div class="chip" data-copy="${fmt(isActive ? halfTariff : res.tariff)}">
+              <span>حقوق ورودی${isActive ? ' / ۲' : ''}:</span>
+              <span class="box042-chip-val" style="color:#ea580c">${fmt(isActive ? halfTariff : res.tariff)}</span>
+            </div>
+            <div class="chip" data-copy="${fmt(redCrescentAmount)}">
+              <span>هلال احمر:</span>
+              <span class="box042-chip-val" style="color:#ea580c">${fmt(redCrescentAmount)}</span>
+            </div>
           `;
         }
       }
@@ -1260,7 +1322,7 @@
         'بیمه حمل (۰.۰۵٪)':
           'ارزش کل × نرخ ارز × ۰.۰۰۰۵',
 
-        'ارزش کل ریالی (سیف)':
+        'ارزش کل (سیف)':
           '(ارزش کل × نرخ ارز) + بیمه حمل + ۱',
 
         'حقوق ورودی':
