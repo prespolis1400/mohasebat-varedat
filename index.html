@@ -198,13 +198,24 @@
     }
 
     /* ============================================================
-       §7 — FORM ELEMENTS
+       §7 — FORM ELEMENTS (ساختار دو ستونه ثابت فرم ورودی)
        ============================================================ */
-    .input-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 16px; }
-    .input-group { display: flex; flex-direction: column; gap: 8px; }
+    .input-grid { 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 16px; 
+    }
+    .input-group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
     .input-group--full { grid-column: 1 / -1; }
 
-    .main-label { font-size: .85rem; color: var(--text-muted); font-weight: 600; }
+    .main-label { 
+      font-size: .85rem; 
+      color: var(--text-muted); 
+      font-weight: 600; 
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+    }
     .main-label--accent { color: var(--primary); }
 
     input[type="text"], input[type="number"], select {
@@ -215,7 +226,7 @@
     select {
       background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a0a0ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: left 12px center;
-      background-size: 16px; padding-left: 40px;
+      background-size: 16px; padding-left: 36px;
     }
     input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
 
@@ -232,25 +243,48 @@
       font-size: .85rem; color: var(--primary); font-weight: 700;
       margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
     }
-    .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+    /* باکس ۰۴۲ سه‌ستونه */
+    .checkbox-grid--3cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
 
     .check-item {
       display: flex; align-items: center; gap: 8px; cursor: pointer;
       font-size: .82rem; color: var(--text-main); font-weight: 600; user-select: none;
+      min-width: 0;
     }
-    .check-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-variant); }
+    .check-item span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .check-item input[type="checkbox"] { 
+      width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-variant); flex-shrink: 0; 
+    }
 
     /* ============================================================
-       §9 — ACTION BUTTONS
+       §9 — ACTION BUTTONS (دو ستونه کنار هم حتی در موبایل)
        ============================================================ */
-    .btn-group { grid-column: 1 / -1; display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; direction: ltr; }
+    .btn-group { 
+      grid-column: 1 / -1; 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px; 
+      margin-top: 8px; 
+      direction: ltr; 
+    }
 
     .calc-btn {
-      flex: 1; min-width: 200px; color: #fff; border: none;
-      padding: 16px; border-radius: var(--radius-md); font-size: 1.05rem; font-weight: 800;
+      width: 100%; color: #fff; border: none;
+      padding: 16px 8px; border-radius: var(--radius-md); font-size: 1.05rem; font-weight: 800;
       cursor: pointer; transition: var(--transition);
-      display: flex; align-items: center; justify-content: center; gap: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
       box-shadow: 0 4px 15px rgba(0,0,0,.1);
+      white-space: nowrap;
     }
     .calc-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,.15); }
     .calc-btn:active { transform: scale(.97); }
@@ -259,7 +293,7 @@
     .calc-btn--taavoni:hover { background: var(--success-hover); }
 
     /* ============================================================
-       §10 — RESULTS
+       §10 — RESULTS (۳ ستونه شدن نتایج محاسبات)
        ============================================================ */
     .result-card {
       background: var(--bg-surface); border-radius: var(--radius-lg);
@@ -278,16 +312,37 @@
     .kpi-title { font-size: .9rem; font-weight: 700; opacity: .9; }
     .kpi-val   { font-size: 2.4rem; font-weight: 900; margin-top: 8px; letter-spacing: -.5px; cursor: pointer; }
 
-    .details-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 12px; }
+    /* ۳ ستونه ثابت برای نتایج */
+    .details-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 12px; 
+    }
 
     .detail-item {
-      background: var(--bg-surface-variant); padding: 12px 16px;
+      background: var(--bg-surface-variant); padding: 12px 14px;
       border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 6px;
       border: 1px solid var(--border); transition: var(--transition); cursor: pointer;
+      min-width: 0;
     }
     .detail-item:hover { border-color: var(--primary); transform: translateY(-2px); }
-    .detail-title { font-size: .8rem; color: var(--text-muted); font-weight: 600; }
-    .detail-val   { font-size: 1.05rem; font-weight: 800; font-family: monospace; color: var(--text-main); }
+    .detail-title { 
+      font-size: .8rem; 
+      color: var(--text-muted); 
+      font-weight: 600; 
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+    }
+    .detail-val   { 
+      font-size: 1.05rem; 
+      font-weight: 800; 
+      font-family: monospace; 
+      color: var(--text-main); 
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+    }
 
     /* ============================================================
        §11 — BOX 042
@@ -390,45 +445,102 @@
     }
 
     /* ============================================================
-       §17 — RESPONSIVE
+       §17 — RESPONSIVE (موبایل و تبلت)
        ============================================================ */
-    @media (max-width: 480px) {
-      .app-header { padding: 0 10px; flex-direction: column; align-items: flex-start; gap: 12px; }
-      .theme-toggle { position: absolute; left: 14px; top: 20px; }
-      .kpi-val { font-size: 2rem; }
-      .total-payment { flex-direction: column; gap: 8px; text-align: center; }
-      .btn-group { flex-direction: column; }
+    @media (max-width: 640px) {
+      .input-grid { gap: 10px; }
+      .main-label { font-size: 0.74rem; }
+      input[type="text"], input[type="number"], select {
+        padding: 10px 10px;
+        font-size: 0.88rem;
+      }
+      select {
+        padding-left: 26px;
+        background-position: left 6px center;
+      }
+
+      /* حفظ ۳ ستونه باکس ۰۴۲ در موبایل */
+      .checkbox-grid--3cols {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px 4px;
+      }
+      .check-item {
+        font-size: 0.7rem;
+        gap: 4px;
+      }
+      .check-item input[type="checkbox"] {
+        width: 15px;
+        height: 15px;
+      }
+
+      /* حفظ ۳ ستونه نتایج در موبایل */
+      .details-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+      .detail-item {
+        padding: 8px 6px;
+      }
+      .detail-title {
+        font-size: 0.68rem;
+      }
+      .detail-val {
+        font-size: 0.82rem;
+      }
+
+      /* حفظ دکمه‌ها در یک سطر در موبایل */
+      .btn-group {
+        gap: 8px;
+      }
+      .calc-btn {
+        padding: 12px 6px;
+        font-size: 0.85rem;
+        gap: 4px;
+      }
+      .calc-btn .material-icons-round {
+        font-size: 1.1rem;
+      }
     }
+
+    @media (max-width: 480px) {
+      body { padding: 12px 8px; }
+      .card { padding: 16px 10px; }
+      .app-header { padding: 0 4px; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .theme-toggle { position: absolute; left: 14px; top: 16px; }
+      .kpi-val { font-size: 1.7rem; }
+      .total-payment { flex-direction: column; gap: 8px; text-align: center; font-size: 1rem; }
+    }
+
     /* ===== پاپ‌آپ راهنمای محاسبه ===== */
-#calcTooltip {
-  position: fixed;
-  z-index: 9999;
-  display: none;
-  max-width: 280px;
-  background: #1f2937;
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 12px;
-  line-height: 1.9;
-  pointer-events: none;
-  box-shadow: 0 8px 20px rgba(0,0,0,.3);
-  direction: rtl;
-  text-align: right;
-}
+    #calcTooltip {
+      position: fixed;
+      z-index: 9999;
+      display: none;
+      max-width: 280px;
+      background: #1f2937;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.9;
+      pointer-events: none;
+      box-shadow: 0 8px 20px rgba(0,0,0,.3);
+      direction: rtl;
+      text-align: right;
+    }
 
-body.dark #calcTooltip {
-  background: #f9fafb;
-  color: #111827;
-}
+    body.dark #calcTooltip {
+      background: #f9fafb;
+      color: #111827;
+    }
 
-#resultContent .detail-item,
-#resultContent .chip,
-#resultContent .box042,
-#resultContent .total-payment,
-#resultContent .result-kpi {
-  cursor: help;
-}
+    #resultContent .detail-item,
+    #resultContent .chip,
+    #resultContent .box042,
+    #resultContent .total-payment,
+    #resultContent .result-kpi {
+      cursor: help;
+    }
   </style>
 </head>
 
@@ -479,40 +591,37 @@ body.dark #calcTooltip {
       </div>
 
       <div class="input-grid">
-        <!-- وزن -->
+        <!-- ۱. وزن خالص و ارزش کل در کنار هم -->
         <div class="input-group">
           <label class="main-label" for="inpWeight">وزن خالص (کیلوگرم)</label>
           <input type="text" id="inpWeight" inputmode="numeric" placeholder="مثال: 1,500" autocomplete="off">
         </div>
 
-        <!-- ارزش -->
         <div class="input-group">
           <label class="main-label" for="inpAmount">ارزش کل (ارز خارجی)</label>
           <input type="text" id="inpAmount" inputmode="numeric" placeholder="مثال: 50,000" autocomplete="off">
         </div>
 
-        <!-- ارز -->
-        <div class="input-group input-group--full">
+        <!-- ۲. نوع ارز و نرخ ارز در کنار هم -->
+        <div class="input-group">
           <label class="main-label" for="inpCurrency">انتخاب ارز گمرکی</label>
-          <select id="inpCurrency"><option value="">در حال بارگذاری نرخ‌ها...</option></select>
+          <select id="inpCurrency"><option value="">بارگذاری...</option></select>
         </div>
 
-        <!-- نرخ -->
         <div class="input-group">
-          <label class="main-label" for="inpRate">نرخ تبدیل ارز (ریال)</label>
+          <label class="main-label" for="inpRate">نرخ ارز (ریال)</label>
           <input type="text" id="inpRate" inputmode="numeric" placeholder="خودکار درج می‌شود" autocomplete="off">
         </div>
 
-        <!-- تعرفه -->
+        <!-- ۳. درصد حقوق ورودی و مبلغ بیمه در کنار هم -->
         <div class="input-group">
           <label class="main-label" for="inpTariff">حقوق ورودی (٪)</label>
           <input type="number" id="inpTariff" value="5" step="1" style="direction:ltr">
         </div>
 
-        <!-- بیمه دستی -->
-        <div class="input-group input-group--full">
-          <label class="main-label main-label--accent" for="inpManualInsurance">مبلغ بیمه حمل (ریال - اختیاری)</label>
-          <input type="text" id="inpManualInsurance" inputmode="numeric" placeholder="در صورت خالی بودن، ۰.۰۵٪ با نرخ گمرکی" autocomplete="off">
+        <div class="input-group">
+          <label class="main-label main-label--accent" for="inpManualInsurance">بیمه حمل (ریال - اختیاری)</label>
+          <input type="text" id="inpManualInsurance" inputmode="numeric" placeholder="پیش‌فرض ۰.۰۵٪" autocomplete="off">
         </div>
 
         <!-- چک‌باکس‌های ثابت -->
@@ -522,36 +631,36 @@ body.dark #calcTooltip {
             موارد محاسباتی ثابت (فعال / غیرفعال)
           </div>
           <div class="checkbox-grid">
-            <label class="check-item"><input type="checkbox" id="chkStandard" checked> عوارض استاندارد (8.7 در ۱۰۰۰)</label>
-            <label class="check-item"><input type="checkbox" id="chkFoodDrug" checked> غذا و دارو (۲ در ۱۰۰۰)</label>
+            <label class="check-item"><input type="checkbox" id="chkStandard" checked> <span>عوارض استاندارد (8.7 در ۱۰۰۰)</span></label>
+            <label class="check-item"><input type="checkbox" id="chkFoodDrug" checked> <span>غذا و دارو (۲ در ۱۰۰۰)</span></label>
           </div>
         </div>
 
-        <!-- چک‌باکس‌های باکس ۰۴۲ -->
+        <!-- ۴. تجمیع باکس ۰۴۲ بصورت ۳ ستونه -->
         <div class="checkbox-container">
           <div class="checkbox-container-title">
             <span class="material-icons-round" style="font-size:1.1rem" aria-hidden="true">account_balance_wallet</span>
             موارد باکس ۰۴۲ (داینامیک بر اساس فایل پیوست)
           </div>
-          <div class="checkbox-grid" id="box042Container">
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="tariff" data-rate="0.01"   data-name="هلال احمر" checked> هلال احمر (۱٪ ورودی)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.01"   data-name="نهاده دامی"> نهاده دامی (۱٪ ارزش)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.012"  data-name="عوارض ۱۲ در ۱۰۰۰" checked> عوارض ۱۲ در ۱۰۰۰</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.0005" data-name="پسماند"> پسماند (۰.۰۵٪ ارزش)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="2750"   data-name="گوشت قرمز"> گوشت قرمز (۲۷۵۰ ر/ک)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="1100"   data-name="گوشت مرغ"> گوشت مرغ (۱۱۰۰ ر/ک)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.10"   data-name="خودرو بنزینی"> خودرو بنزینی (۱۰٪ ارزش)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.05"   data-name="خودرو سواری"> خودرو سواری (۵٪ ارزش)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.10"   data-name="کالای آسیب‌رسان"> کالای آسیب‌رسان (۱۰٪ ارزش)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="200"    data-name="غلات/چوب/دانه"> غلات/چوب... (۲۰۰ ر/ک)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="300"    data-name="عوارض چای"> چای (۳۰۰ ر/ک)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="500"    data-name="پنبه/کنجاله"> پنبه/کنجاله (۵۰۰ ر/ک)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="700"    data-name="میوه و سبزیجات"> میوه/سبزیجات (۷۰۰ ر/ک)</label>
-            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="14640"  data-name="سم کشاورزی"> سم آماده (۱۴۶۴۰ ر/ک)</label>
+          <div class="checkbox-grid--3cols" id="box042Container">
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="tariff" data-rate="0.01"   data-name="هلال احمر" checked> <span>هلال احمر (۱٪)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.01"   data-name="نهاده دامی"> <span>نهاده دامی (۱٪)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.012"  data-name="عوارض ۱۲ در ۱۰۰۰" checked> <span>عوارض ۱۲ در ۱۰۰۰</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.0005" data-name="پسماند"> <span>پسماند (۰.۰۵٪)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="2750"   data-name="گوشت قرمز"> <span>گوشت قرمز (۲۷۵۰)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="1100"   data-name="گوشت مرغ"> <span>گوشت مرغ (۱۱۰۰)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.10"   data-name="خودرو بنزینی"> <span>خودرو بنزینی (۱۰٪)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.05"   data-name="خودرو سواری"> <span>خودرو سواری (۵٪)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="value"  data-rate="0.10"   data-name="کالای آسیب‌رسان"> <span>کالای آسیب‌رسان</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="200"    data-name="غلات/چوب/دانه"> <span>غلات/چوب (۲۰۰)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="300"    data-name="عوارض چای"> <span>چای (۳۰۰)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="500"    data-name="پنبه/کنجاله"> <span>پنبه/کنجاله (۵۰۰)</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="700"    data-name="میوه و سبزیجات"> <span>میوه/سبزیجات</span></label>
+            <label class="check-item"><input type="checkbox" class="box042-item" data-type="weight" data-rate="14640"  data-name="سم کشاورزی"> <span>سم کشاورزی</span></label>
           </div>
         </div>
 
-        <!-- دکمه‌های محاسبه -->
+        <!-- دکمه‌های محاسبه (دو ستونه و کنار هم در همه صفحات) -->
         <div class="btn-group">
           <button class="calc-btn calc-btn--azad" id="btnCalcAzad">
             <span class="material-icons-round" aria-hidden="true">calculate</span>
@@ -602,25 +711,22 @@ body.dark #calcTooltip {
       API_TIMEOUT:    8000,
       TOAST_DURATION: 4000,
 
-      // نرخ‌های محاسباتی
       RATES: {
-        INSURANCE_DEFAULT:  0.0005,   // ۰.۰۵٪ بیمه پیش‌فرض
-        STANDARD_TAX:       0.0087,    // 8.7 در ۱۰۰۰ عوارض استاندارد
-        FOOD_DRUG_TAX:      0.002,    // ۲ در ۱۰۰۰ غذا و دارو
-        ALIOLHESAB_TAX:     0.02,     // ۲٪ مالیات علی‌الحساب
-        VAT:                0.10,     // ۱۰٪ ارزش افزوده
-        TAavoni_DISCOUNT:   4 / 10,   // ۴/۱۰ تخفیف تعاونی از VAT
-        TARIFF_DISCOUNT:    0.50,     // ۵۰٪ تخفیف حقوق ورودی تعاونی
+        INSURANCE_DEFAULT:  0.0005,   
+        STANDARD_TAX:       0.0087,    
+        FOOD_DRUG_TAX:      0.002,    
+        ALIOLHESAB_TAX:     0.02,     
+        VAT:                0.10,     
+        TAavoni_DISCOUNT:   4 / 10,   
+        TARIFF_DISCOUNT:    0.50,     
       },
 
-      // نرخ‌های fallback وقتی API در دسترس نیست
       FALLBACK_CURRENCIES: [
         { currency: 'دلار آمریکا (USD)', rate: 1310661 },
         { currency: 'یورو (EUR)',        rate: 1551964 },
         { currency: 'درهم امارات (AED)', rate: 356885  },
       ],
 
-      // آیتم‌های پیش‌فرض باکس ۰۴۲ که بعد از ریست checked باشند
       DEFAULT_CHECKED_042: ['هلال احمر', 'عوارض ۱۲ در ۱۰۰۰'],
     });
 
@@ -643,20 +749,16 @@ body.dark #calcTooltip {
     /* ==========================================================
        §C — UTILITY FUNCTIONS
        ========================================================== */
-
-    /** تبدیل رشته به عدد با حذف کاما و کاراکترهای غیرمجاز */
     function parseNum(id) {
       const el = DOM[id];
       if (!el) return 0;
       return parseFloat(el.value.replace(/,/g, '').replace(/[^0-9.]/g, '')) || 0;
     }
 
-    /** فرمت عدد با جداکننده هزارگان */
     function fmt(val) {
       return isNaN(val) ? '۰' : Math.round(val).toLocaleString('en-US');
     }
 
-    /** کپی متن در کلیپ‌بورد با fallback */
     async function copyToClipboard(text) {
       if (!text) return;
       try {
@@ -672,7 +774,6 @@ body.dark #calcTooltip {
       showToast(`✅ ${text} کپی شد!`);
     }
 
-    /** نمایش Toast */
     let toastTimer = null;
     function showToast(msg, type = 'success', duration = CONFIG.TOAST_DURATION) {
       const t = DOM.toast;
@@ -682,7 +783,6 @@ body.dark #calcTooltip {
       toastTimer = setTimeout(() => t.classList.remove('show'), duration);
     }
 
-    /** فرمت‌دهی زنده ورودی عددی */
     function liveFormatInput(e) {
       const raw = e.target.value.replace(/,/g, '').replace(/[^0-9.]/g, '');
       if (!raw) { e.target.value = ''; return; }
@@ -707,7 +807,7 @@ body.dark #calcTooltip {
     async function loadCurrencies() {
       const sel = DOM.inpCurrency;
       DOM.loadingOverlay.classList.remove('hidden');
-      sel.innerHTML = '<option value="">در حال بارگذاری نرخ‌ها...</option>';
+      sel.innerHTML = '<option value="">بارگذاری...</option>';
 
       let success = false;
       try {
@@ -721,11 +821,11 @@ body.dark #calcTooltip {
         showToast('خطا در اتصال به سرور! نرخ‌های پیش‌فرض بارگذاری شدند.', 'error', 5000);
       }
 
-      sel.innerHTML = '<option value="">-- انتخاب ارز مورد نظر --</option>';
+      sel.innerHTML = '<option value="">-- انتخاب ارز --</option>';
       const list = success
         ? currencyData.map(c => ({
             label: `${c.currency} : ${Number(String(c.rate).replace(/,/g, '').replace(/[^0-9.]/g, '')).toLocaleString('en-US')} ریال`,
-            rate:  String(c.rate).replace(/,/g, '').replace(/[^0-9.]/g, ''),
+            rate:  String(c.rate),
           }))
         : CONFIG.FALLBACK_CURRENCIES.map(c => ({
             label: `${c.currency} : ${c.rate.toLocaleString('en-US')} ریال`,
@@ -744,11 +844,6 @@ body.dark #calcTooltip {
     /* ==========================================================
        §E — CALCULATION ENGINE
        ========================================================== */
-
-    /**
-     * محاسبه آیتم‌های باکس ۰۴۲
-     * @returns {{ total: number, html: string }}
-     */
     function calcBox042(weight, totalValue, tariff) {
       let total = 0;
       let html = '';
@@ -777,11 +872,7 @@ body.dark #calcTooltip {
       return { total, html };
     }
 
-    /**
-     * هسته اصلی محاسبه
-     * @param {'azad'|'taavoni'} mode
-     */
-            function calculate(mode) {
+    function calculate(mode) {
       try {
         const weight   = parseNum('inpWeight');
         const amount   = parseNum('inpAmount');
@@ -796,31 +887,18 @@ body.dark #calcTooltip {
 
         const R = CONFIG.RATES;
 
-        // ۱) بیمه
         const insurance = manualIns > 0 ? manualIns : Math.round(amount * R.INSURANCE_DEFAULT * rate);
-
-        // ۲) ارزش سیف
         const cifValue = Math.round((amount * rate) + insurance + 1);
-
-        // ۳) حقوق ورودی
         const tariff = Math.round(cifValue * (tariffPct / 100));
-
-        // ۴) باکس ۰۴۲
         const box042 = calcBox042(weight, cifValue, tariff);
-
-        // ۵) مالیات ۲٪ علی‌الحساب
         const tax4 = Math.round((cifValue + tariff) * R.ALIOLHESAB_TAX);
-
-        // ۶) عوارض ثابت
         const standard = DOM.chkStandard.checked ? Math.round(cifValue * R.STANDARD_TAX) : 0;
         const foodDrug = DOM.chkFoodDrug.checked ? Math.round(cifValue * R.FOOD_DRUG_TAX) : 0;
 
-        // ۷) ارزش افزوده
         const vatRate = R.VAT || 0.10;
         const normalVat = Math.round((cifValue + tariff) * vatRate);
         let vat = normalVat;
 
-        // پیدا کردن مبلغ هلال احمر بدون وابستگی به DOM.chkRedCrescent
         function isBox042CheckedByText(text) {
           const labels = document.querySelectorAll('label');
           for (const label of labels) {
@@ -830,22 +908,10 @@ body.dark #calcTooltip {
               if (checkbox && checkbox.checked) return true;
             }
           }
-
-          const inputs = document.querySelectorAll('input[type="checkbox"]');
-          for (const inp of inputs) {
-            const txt =
-              inp.getAttribute('title') ||
-              inp.getAttribute('aria-label') ||
-              inp.dataset.title ||
-              inp.id || '';
-            if (txt.includes(text) && inp.checked) return true;
-          }
-
           return false;
         }
 
         let redCrescentAmount = 0;
-
         if (Array.isArray(box042.items)) {
           const item = box042.items.find(i => String(i.title || '').includes('هلال احمر'));
           if (item) redCrescentAmount = item.amount || 0;
@@ -855,27 +921,16 @@ body.dark #calcTooltip {
           redCrescentAmount = Math.round(tariff * 0.01);
         }
 
-        // ۸) محاسبه نهایی بر اساس مود
         let totalPayment = 0;
         let costPerKg = 0;
         let box049 = 0;
         let basePayment = 0;
 
         if (mode === 'taavoni') {
-          // حالت اولیه بدون تیک:
-          // باکس ۰۴۹ = حقوق ورودی + هلال احمر
           box049 = tariff + redCrescentAmount;
-
-          // ارزش افزوده در حالت عادی همان فرمول قبلی است
           vat = normalVat;
-
-          // جمع پرداختی پایه = ارزش افزوده + مجموع باکس ۰۴۲ + حقوق ورودی
           basePayment = vat + box042.total + tariff;
-
-          // جمع پرداختی نهایی = جمع پرداختی پایه - باکس ۰۴۹
           totalPayment = basePayment - box049;
-
-          // بهای تمام‌شده هر کیلو
           costPerKg = Math.round((totalPayment + tax4 + standard + foodDrug) / weight);
         } else {
           totalPayment = tariff + box042.total + vat;
@@ -912,8 +967,7 @@ body.dark #calcTooltip {
     /* ==========================================================
        §F — RENDERING
        ========================================================== */
-
-            function renderResults(res) {
+    function renderResults(res) {
       const isTaav = res.mode === 'taavoni';
       const container = DOM.resultContent;
       container.dataset.resultData = JSON.stringify(res);
@@ -971,7 +1025,6 @@ body.dark #calcTooltip {
         </div>
       `;
 
-      // اتصال listener تخفیف تعاونی
       if (isTaav) {
         const dc = document.getElementById('discountCheck');
         if (dc) dc.addEventListener('change', recalcWithDiscount);
@@ -980,7 +1033,6 @@ body.dark #calcTooltip {
       showResultCard(res.mode);
     }
 
-    /** ساخت HTML یک آیتم جزئیات */
     function detailItem(title, value) {
       return `<div class="detail-item" data-copy="${fmt(value)}">
                 <span class="detail-title">${title}</span>
@@ -1003,8 +1055,6 @@ body.dark #calcTooltip {
       card.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-        /** بازمحاسبه با تخفیف ۵۰٪ حقوق ورودی (تعاونی) */
-        /** بازمحاسبه با تخفیف ۵۰٪ حقوق ورودی (تعاونی) */
     function recalcWithDiscount() {
       const container = DOM.resultContent;
       const res = JSON.parse(container.dataset.resultData || '{}');
@@ -1017,39 +1067,27 @@ body.dark #calcTooltip {
       const redCrescentAmount = res.redCrescentAmount || 0;
       const halfTariff = Math.round(res.tariff / 2);
 
-      // باکس ۰۴۹:
-      // بدون تیک = حقوق ورودی + هلال احمر
-      // با تیک = حقوق ورودی / ۲ + هلال احمر
       const box049New = isActive
         ? halfTariff + redCrescentAmount
         : res.tariff + redCrescentAmount;
 
-      // نرخ ارزش افزوده
       const vatRate = (CONFIG && CONFIG.RATES && CONFIG.RATES.VAT)
         ? CONFIG.RATES.VAT
         : 0.10;
 
-      // ارزش افزوده عادی برای زمان غیرفعال بودن تیک
       const normalVat = (typeof res.vatNormal === 'number') ? res.vatNormal : res.vat;
 
-      // اگر تیک فعال بود:
-      // ارزش افزوده = (حقوق ورودی + مجموع باکس ۰۴۲ - باکس ۰۴۹) × ۱۰٪
       const vatCurrent = isActive
         ? Math.round((res.cifValue + res.tariff - box049New) * vatRate)
         : normalVat;
 
-      // جمع پرداختی پایه با ارزش افزوده جدید
       const basePaymentNew = vatCurrent + res.box042Total + res.tariff;
-
-      // جمع پرداختی نهایی = جمع پرداختی پایه - باکس ۰۴۹
       const finalPayment = basePaymentNew - box049New;
 
-      // بهای تمام‌شده هر کیلو
       const costPerKg = Math.round(
         (finalPayment + res.tax4 + res.standard + res.foodDrug) / res.weight
       );
 
-      // به‌روزرسانی مبلغ ارزش افزوده در نتایج
       container.querySelectorAll('.detail-item').forEach(item => {
         const titleEl = item.querySelector('.detail-title');
         if (titleEl && titleEl.textContent.includes('ارزش افزوده')) {
@@ -1059,7 +1097,6 @@ body.dark #calcTooltip {
         }
       });
 
-      // به‌روزرسانی باکس ۰۴۹
       const box049Header = container.querySelector('.box049-header');
       const box049El = box049Header ? box049Header.closest('.box042') : null;
 
@@ -1079,7 +1116,6 @@ body.dark #calcTooltip {
         }
       }
 
-      // به‌روزرسانی جمع پرداختی
       const totalEl = container.querySelector('.total-payment .total-amount');
       if (totalEl) {
         totalEl.innerHTML = `${fmt(finalPayment)} <small>ریال</small>`;
@@ -1090,7 +1126,6 @@ body.dark #calcTooltip {
         totalPaymentBox.dataset.copy = fmt(finalPayment);
       }
 
-      // به‌روزرسانی KPI
       const kpiEl = container.querySelector('.kpi-val');
       if (kpiEl) {
         kpiEl.innerHTML = `${fmt(costPerKg)} <span style="font-size:1.1rem;opacity:.8">ریال</span>`;
@@ -1138,7 +1173,6 @@ body.dark #calcTooltip {
        §J — EVENT BINDING
        ========================================================== */
     function bindEvents() {
-      // دکمه‌ها
       DOM.btnReset.addEventListener('click', resetForm);
       DOM.btnAbout.addEventListener('click', openModal);
       DOM.btnCloseModal.addEventListener('click', closeModal);
@@ -1146,28 +1180,23 @@ body.dark #calcTooltip {
       DOM.btnCalcAzad.addEventListener('click', () => calculate('azad'));
       DOM.btnCalcTaavoni.addEventListener('click', () => calculate('taavoni'));
 
-      // بستن مودال با کلیک روی پس‌زمینه
       DOM.aboutModal.addEventListener('click', e => {
         if (e.target === DOM.aboutModal) closeModal();
       });
 
-      // فرمت زنده ورودی‌های عددی
       ['inpWeight', 'inpAmount', 'inpRate', 'inpManualInsurance'].forEach(id => {
         DOM[id].addEventListener('input', liveFormatInput);
       });
 
-      // تغییر ارز → درج خودکار نرخ
       DOM.inpCurrency.addEventListener('change', e => {
         DOM.inpRate.value = e.target.value ? Number(e.target.value).toLocaleString('en-US') : '';
         DOM.resultCard.classList.remove('visible');
       });
 
-      // هر چک‌باکس تغییر کند → نتیجه پنهان شود
       document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
         cb.addEventListener('change', () => DOM.resultCard.classList.remove('visible'));
       });
 
-      // Event Delegation برای کپی
       document.addEventListener('click', e => {
         const target = e.target.closest('[data-copy]');
         if (target) copyToClipboard(target.dataset.copy);
@@ -1185,235 +1214,234 @@ body.dark #calcTooltip {
     }
 
     document.addEventListener('DOMContentLoaded', init);
-  /* ==========================================================
-   §H — TOOLTIP راهنمای نحوه محاسبه
-   نسخه به‌روز: با تشخیص فعال/غیرفعال بودن تیک ۵۰٪
-   ========================================================== */
-(function () {
-  const oldTip = document.getElementById('calcTooltip');
-  if (oldTip) oldTip.remove();
 
-  const tip = document.createElement('div');
-  tip.id = 'calcTooltip';
-  document.body.appendChild(tip);
+    /* ==========================================================
+       §L — TOOLTIP CALCULATIONS
+       ========================================================== */
+    (function () {
+      const oldTip = document.getElementById('calcTooltip');
+      if (oldTip) oldTip.remove();
 
-  function isDiscountActive() {
-    const dc = document.getElementById('discountCheck');
-    return dc ? dc.checked : false;
-  }
+      const tip = document.createElement('div');
+      tip.id = 'calcTooltip';
+      document.body.appendChild(tip);
 
-  const TIP_FORMULAS = {
-    'بهای تمام‌شده هر کیلوگرم خالص':
-      '(جمع پرداختی + مالیات ۲٪ + عوارض استاندارد + غذا و دارو) ÷ وزن خالص',
-
-    'جمع پرداختی (تعاونی)': () =>
-      isDiscountActive()
-        ? 'ارزش افزوده جدید + مجموع باکس ۰۴۲ + حقوق ورودی − باکس ۰۴۹'
-        : 'ارزش افزوده + مجموع باکس ۰۴۲ + حقوق ورودی − باکس ۰۴۹',
-
-    'جمع کل پرداختی':
-      'حقوق ورودی + مجموع باکس ۰۴۲ + ارزش افزوده',
-
-    'باکس ۰۴۹': () =>
-      isDiscountActive()
-        ? '(حقوق ورودی ÷ ۲) + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود'
-        : 'حقوق ورودی + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود',
-
-    'باکس ۰۴۲':
-      'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
-
-    'تجمیع عوارض باکس ۰۴۲':
-      'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
-
-    'بیمه حمل (دستی)':
-      'مبلغ بیمه را به‌صورت دستی وارد کرده‌اید',
-
-    'بیمه حمل (۰.۰۵٪)':
-      'ارزش کل × نرخ ارز × ۰.۰۰۰۵',
-
-    'ارزش کل ریالی (سیف)':
-      '(ارزش کل × نرخ ارز) + بیمه حمل + ۱',
-
-    'حقوق ورودی':
-      'ارزش سیف × (درصد حقوق ورودی ÷ ۱۰۰)',
-
-    'ارزش افزوده (۱۰٪)': () =>
-      isDiscountActive()
-        ? '(حقوق ورودی + ارزش سیف − باکس ۰۴۹) × ۱۰٪'
-        : '(ارزش سیف + حقوق ورودی) × ۱۰٪',
-
-    'مالیات ۲٪ علی‌الحساب':
-      '(ارزش سیف + حقوق ورودی) × ۲٪',
-
-    'عوارض استاندارد':
-      'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
-
-    'غذا و دارو':
-      'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
-
-    'هلال احمر':
-      'حقوق ورودی × ۱٪',
-
-    'نهاده دامی':
-      'ارزش سیف × ۱٪',
-
-    'عوارض ۱۲ در ۱۰۰۰':
-      'ارزش سیف × ۰.۰۱۲',
-
-    'پسماند':
-      'ارزش سیف × ۰.۰۰۰۵',
-
-    'گوشت قرمز':
-      'وزن خالص × ۲۷۵۰ ریال',
-
-    'گوشت مرغ':
-      'وزن خالص × ۱۱۰۰ ریال',
-
-    'خودرو بنزینی':
-      'ارزش سیف × ۱۰٪',
-
-    'خودرو سواری':
-      'ارزش سیف × ۵٪',
-
-    'کالای آسیب‌رسان':
-      'ارزش سیف × ۱۰٪',
-
-    'غلات/چوب':
-      'وزن خالص × ۲۰۰ ریال',
-
-    'چای':
-      'وزن خالص × ۳۰۰ ریال',
-
-    'پنبه/کنجاله':
-      'وزن خالص × ۵۰۰ ریال',
-
-    'میوه/سبزیجات':
-      'وزن خالص × ۷۰۰ ریال',
-
-    'سم آماده':
-      'وزن خالص × ۱۴۶۴۰ ریال'
-  };
-
-  function resolveFormula(value) {
-    return typeof value === 'function' ? value() : value;
-  }
-
-  function findFormula(text) {
-    if (!text) return null;
-    text = text.trim();
-
-    if (TIP_FORMULAS[text]) {
-      return resolveFormula(TIP_FORMULAS[text]);
-    }
-
-    for (const key of Object.keys(TIP_FORMULAS)) {
-      if (text.includes(key)) {
-        return resolveFormula(TIP_FORMULAS[key]);
+      function isDiscountActive() {
+        const dc = document.getElementById('discountCheck');
+        return dc ? dc.checked : false;
       }
-    }
 
-    return null;
-  }
+      const TIP_FORMULAS = {
+        'بهای تمام‌شده هر کیلوگرم خالص':
+          '(جمع پرداختی + مالیات ۲٪ + عوارض استاندارد + غذا و دارو) ÷ وزن خالص',
 
-  function titleFrom(target) {
-    // تیک تخفیف ۵۰٪
-    const label = target.closest('label');
-    if (label && label.querySelector('#discountCheck')) {
-      return '@DISCOUNT@';
-    }
+        'جمع پرداختی (تعاونی)': () =>
+          isDiscountActive()
+            ? 'ارزش افزوده جدید + مجموع باکس ۰۴۲ + حقوق ورودی − باکس ۰۴۹'
+            : 'ارزش افزوده + مجموع باکس ۰۴۲ + حقوق ورودی − باکس ۰۴۹',
 
-    const host = target.closest('.chip, .detail-item, .box042, .total-payment, .result-kpi');
-    if (!host) return null;
+        'جمع کل پرداختی':
+          'حقوق ورودی + مجموع باکس ۰۴۲ + ارزش افزوده',
 
-    if (host.classList.contains('chip')) {
-      if (
-        host.parentElement &&
-        host.parentElement.classList.contains('box049-chips') &&
-        host.textContent.includes('حقوق ورودی')
-      ) {
-        return '@BOX049_TARIFF@';
+        'باکس ۰۴۹': () =>
+          isDiscountActive()
+            ? '(حقوق ورودی ÷ ۲) + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود'
+            : 'حقوق ورودی + هلال احمر — این مبلغ از جمع پرداختی کسر می‌شود',
+
+        'باکس ۰۴۲':
+          'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
+
+        'تجمیع عوارض باکس ۰۴۲':
+          'مجموع تمام عوارض فعال‌شده در باکس ۰۴۲',
+
+        'بیمه حمل (دستی)':
+          'مبلغ بیمه را به‌صورت دستی وارد کرده‌اید',
+
+        'بیمه حمل (۰.۰۵٪)':
+          'ارزش کل × نرخ ارز × ۰.۰۰۰۵',
+
+        'ارزش کل ریالی (سیف)':
+          '(ارزش کل × نرخ ارز) + بیمه حمل + ۱',
+
+        'حقوق ورودی':
+          'ارزش سیف × (درصد حقوق ورودی ÷ ۱۰۰)',
+
+        'ارزش افزوده (۱۰٪)': () =>
+          isDiscountActive()
+            ? '(حقوق ورودی + ارزش سیف − باکس ۰۴۹) × ۱۰٪'
+            : '(ارزش سیف + حقوق ورودی) × ۱۰٪',
+
+        'مالیات ۲٪ علی‌الحساب':
+          '(ارزش سیف + حقوق ورودی) × ۲٪',
+
+        'عوارض استاندارد':
+          'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
+
+        'غذا و دارو':
+          'ارزش سیف × ۰.۰۰۲ (۲ در هزار)',
+
+        'هلال احمر':
+          'حقوق ورودی × ۱٪',
+
+        'نهاده دامی':
+          'ارزش سیف × ۱٪',
+
+        'عوارض ۱۲ در ۱۰۰۰':
+          'ارزش سیف × ۰.۰۱۲',
+
+        'پسماند':
+          'ارزش سیف × ۰.۰۰۰۵',
+
+        'گوشت قرمز':
+          'وزن خالص × ۲۷۵۰ ریال',
+
+        'گوشت مرغ':
+          'وزن خالص × ۱۱۰۰ ریال',
+
+        'خودرو بنزینی':
+          'ارزش سیف × ۱۰٪',
+
+        'خودرو سواری':
+          'ارزش سیف × ۵٪',
+
+        'کالای آسیب‌رسان':
+          'ارزش سیف × ۱۰٪',
+
+        'غلات/چوب':
+          'وزن خالص × ۲۰۰ ریال',
+
+        'چای':
+          'وزن خالص × ۳۰۰ ریال',
+
+        'پنبه/کنجاله':
+          'وزن خالص × ۵۰۰ ریال',
+
+        'میوه/سبزیجات':
+          'وزن خالص × ۷۰۰ ریال',
+
+        'سم آماده':
+          'وزن خالص × ۱۴۶۴۰ ریال'
+      };
+
+      function resolveFormula(value) {
+        return typeof value === 'function' ? value() : value;
       }
-      return host.textContent;
-    }
 
-    if (host.classList.contains('detail-item')) {
-      const t = host.querySelector('.detail-title');
-      return t ? t.textContent : null;
-    }
+      function findFormula(text) {
+        if (!text) return null;
+        text = text.trim();
 
-    if (host.classList.contains('result-kpi')) {
-      return 'بهای تمام‌شده هر کیلوگرم خالص';
-    }
+        if (TIP_FORMULAS[text]) {
+          return resolveFormula(TIP_FORMULAS[text]);
+        }
 
-    if (host.classList.contains('total-payment')) {
-      const s = host.querySelector('span');
-      return s ? s.textContent : null;
-    }
+        for (const key of Object.keys(TIP_FORMULAS)) {
+          if (text.includes(key)) {
+            return resolveFormula(TIP_FORMULAS[key]);
+          }
+        }
 
-    const h = host.querySelector('.box049-header span:first-child, .box042-header span:first-child');
-    return h ? h.textContent : null;
-  }
+        return null;
+      }
 
-  function hideTip() {
-    tip.style.display = 'none';
-  }
+      function titleFrom(target) {
+        const label = target.closest('label');
+        if (label && label.querySelector('#discountCheck')) {
+          return '@DISCOUNT@';
+        }
 
-  document.addEventListener('mousemove', function (e) {
-    if (!e.target || !e.target.closest) {
-      hideTip();
-      return;
-    }
+        const host = target.closest('.chip, .detail-item, .box042, .total-payment, .result-kpi');
+        if (!host) return null;
 
-    const inside = e.target.closest('#resultContent');
-    if (!inside) {
-      hideTip();
-      return;
-    }
+        if (host.classList.contains('chip')) {
+          if (
+            host.parentElement &&
+            host.parentElement.classList.contains('box049-chips') &&
+            host.textContent.includes('حقوق ورودی')
+          ) {
+            return '@BOX049_TARIFF@';
+          }
+          return host.textContent;
+        }
 
-    const raw = titleFrom(e.target);
-    let text = null;
+        if (host.classList.contains('detail-item')) {
+          const t = host.querySelector('.detail-title');
+          return t ? t.textContent : null;
+        }
 
-    if (raw === '@DISCOUNT@') {
-      text = isDiscountActive()
-        ? 'تیک فعال است: در باکس ۰۴۹ به‌جای کل حقوق ورودی، نصف حقوق ورودی محاسبه می‌شود و فرمول ارزش افزوده هم تغییر می‌کند'
-        : 'با فعال‌کردن این تیک، در باکس ۰۴۹ نصف حقوق ورودی محاسبه می‌شود و فرمول ارزش افزوده تغییر می‌کند';
-    } else if (raw === '@BOX049_TARIFF@') {
-      text = isDiscountActive()
-        ? 'سهم حقوق ورودی در باکس ۰۴۹ | با تیک فعال: حقوق ورودی ÷ ۲'
-        : 'سهم حقوق ورودی در باکس ۰۴۹ | بدون تیک: کل حقوق ورودی';
-    } else {
-      text = findFormula(raw);
-    }
+        if (host.classList.contains('result-kpi')) {
+          return 'بهای تمام‌شده هر کیلوگرم خالص';
+        }
 
-    if (!text) {
-      hideTip();
-      return;
-    }
+        if (host.classList.contains('total-payment')) {
+          const s = host.querySelector('span');
+          return s ? s.textContent : null;
+        }
 
-    tip.textContent = '💡 ' + text;
-    tip.style.display = 'block';
+        const h = host.querySelector('.box049-header span:first-child, .box042-header span:first-child');
+        return h ? h.textContent : null;
+      }
 
-    const pad = 14;
-    let x = e.clientX + pad;
-    let y = e.clientY + pad;
+      function hideTip() {
+        tip.style.display = 'none';
+      }
 
-    const r = tip.getBoundingClientRect();
+      document.addEventListener('mousemove', function (e) {
+        if (!e.target || !e.target.closest) {
+          hideTip();
+          return;
+        }
 
-    if (x + r.width > window.innerWidth - 6) {
-      x = e.clientX - r.width - pad;
-    }
+        const inside = e.target.closest('#resultContent');
+        if (!inside) {
+          hideTip();
+          return;
+        }
 
-    if (y + r.height > window.innerHeight - 6) {
-      y = e.clientY - r.height - pad;
-    }
+        const raw = titleFrom(e.target);
+        let text = null;
 
-    tip.style.left = x + 'px';
-    tip.style.top  = y + 'px';
-  });
+        if (raw === '@DISCOUNT@') {
+          text = isDiscountActive()
+            ? 'تیک فعال است: در باکس ۰۴۹ به‌جای کل حقوق ورودی، نصف حقوق ورودی محاسبه می‌شود و فرمول ارزش افزوده هم تغییر می‌کند'
+            : 'با فعال‌کردن این تیک، در باکس ۰۴۹ نصف حقوق ورودی محاسبه می‌شود و فرمول ارزش افزوده تغییر می‌کند';
+        } else if (raw === '@BOX049_TARIFF@') {
+          text = isDiscountActive()
+            ? 'سهم حقوق ورودی در باکس ۰۴۹ | با تیک فعال: حقوق ورودی ÷ ۲'
+            : 'سهم حقوق ورودی در باکس ۰۴۹ | بدون تیک: کل حقوق ورودی';
+        } else {
+          text = findFormula(raw);
+        }
 
-  document.addEventListener('mouseleave', hideTip);
-  window.addEventListener('scroll', hideTip, true);
-})();
+        if (!text) {
+          hideTip();
+          return;
+        }
+
+        tip.textContent = '💡 ' + text;
+        tip.style.display = 'block';
+
+        const pad = 14;
+        let x = e.clientX + pad;
+        let y = e.clientY + pad;
+
+        const r = tip.getBoundingClientRect();
+
+        if (x + r.width > window.innerWidth - 6) {
+          x = e.clientX - r.width - pad;
+        }
+
+        if (y + r.height > window.innerHeight - 6) {
+          y = e.clientY - r.height - pad;
+        }
+
+        tip.style.left = x + 'px';
+        tip.style.top  = y + 'px';
+      });
+
+      document.addEventListener('mouseleave', hideTip);
+      window.addEventListener('scroll', hideTip, true);
+    })();
   </script>
 </body>
 </html>
